@@ -1,2 +1,57 @@
 /* common CSS */
-.cont_area {width: 800px; margin: auto;}
+div.showcase_cont_area {width: 800px; margin: auto;}
+div.showcase_cont_area .iconSubpanel {
+  display: inline-block;
+  vertical-align: top;
+  width: 66px;
+  margin: 2px;
+  margin-bottom: 10px;
+}
+div.showcase_cont_area .iconSubpanel img.iconSelect {
+  display: inline-block;
+  vertical-align: top;
+  margin: -1px;
+  width: 35px;
+  height: 35px;
+  border-width: 2px;
+  border-color: transparent;
+  border-style: solid;
+  cursor: pointer;
+}
+div.showcase_cont_area .search_area {display: inline-block; vertical-align: middle; width: 90%;}
+div.showcase_cont_area .search_btn {display: inline-block;
+  background:#1AAB8A;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:30px;
+  font-size:12px;
+  padding:0 10px;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+div.showcase_cont_area .search_btn:hover{
+  background:#fff;
+  color:#1AAB8A;
+}
+div.showcase_cont_area .search_btn:before,div.showcase_cont_area .search_btn:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #1AAB8A;
+  transition:400ms ease all;
+}
+div.showcase_cont_area .search_btn:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+div.showcase_cont_area .search_btn:hover:before,div.showcase_cont_area .search_btn:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}

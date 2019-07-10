@@ -4,19 +4,27 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/jquery.tag-it.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="./js/tag-it.min.js"></script>
     <script type="text/javascript" src="./js/global_init.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-
+        sc_global.init();
       });
     </script>
   </head>
   <body>
-    <div id="content" class="cont_area">
-      <div class="icon_panel">
-123123123
+    <div id="content" class="showcase_cont_area">
+      <div id="IconPanel" class="iconpanel_area"></div>
+      <div id="searchBox" class="search_area">
+        <input type="text" id="search_input" class="tagit-hidden-field" name="search_input" value="" />
       </div>
+      <button type="button" id="search_btn" class="search_btn" name="search_btn">Search</button>
+      <div class="imageDisplayList"></div>
     </div>
   </body>
 </html>
