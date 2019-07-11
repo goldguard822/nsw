@@ -25,12 +25,12 @@ div.showcase_cont_area .iconSubpanel img.iconSelect {
   border-style: solid;
   cursor: pointer;
 }
-div.showcase_cont_area .search_area {
+div.showcase_cont_area .sc_search_area {
   display: inline-block;
   vertical-align: middle;
   width: 90%;
 }
-div.showcase_cont_area .search_btn {
+div.showcase_cont_area .sc_search_btn {
   display: inline-block;
   background:#2177aa;
   color:#fff;
@@ -43,11 +43,11 @@ div.showcase_cont_area .search_btn {
   transition:800ms ease all;
   outline:none;
 }
-div.showcase_cont_area .search_btn:hover{
+div.showcase_cont_area .sc_search_btn:hover{
   background:#fff;
   color:#2177aa;
 }
-div.showcase_cont_area .search_btn:before,div.showcase_cont_area .search_btn:after{
+div.showcase_cont_area .sc_search_btn:before,div.showcase_cont_area .sc_search_btn:after{
   content:'';
   position:absolute;
   top:0;
@@ -57,13 +57,13 @@ div.showcase_cont_area .search_btn:before,div.showcase_cont_area .search_btn:aft
   background: #2177aa;
   transition:400ms ease all;
 }
-div.showcase_cont_area .search_btn:after{
+div.showcase_cont_area .sc_search_btn:after{
   right:inherit;
   top:inherit;
   left:0;
   bottom:0;
 }
-div.showcase_cont_area .search_btn:hover:before,div.showcase_cont_area .search_btn:hover:after{
+div.showcase_cont_area .sc_search_btn:hover:before,div.showcase_cont_area .sc_search_btn:hover:after{
   width:100%;
   transition:800ms ease all;
 }
