@@ -7,7 +7,9 @@ sc_global.idToCat = "";
 sc_global.iconSelected = [];
 sc_global.imIdList = [];
 
-sc_global.tJson = [];
+sc_global.tJson0 = [];
+sc_global.tJson1 = [];
+sc_global.tJson2 = [];
 
 sc_global.init = function(){
   sc_global.setData();
@@ -50,7 +52,7 @@ sc_global.drawIcon = function() {
     });
     div += '</div>';
   });
-  $('#IconPanel').append(div);
+  $('#sc_IconPanel').append(div);
 
   // icon event binding
   var icons = $(".iconSelect");
@@ -156,7 +158,8 @@ sc_global.popRandImageIds = function() {
 }
 
 sc_global.loadSearch = function(ids) {
-  sc_global.tJson = [
+  sc_global.tJson0 = [90324];
+  sc_global.tJson1 = [
     {
       "id":90324
       ,"image_id":90324
@@ -181,12 +184,12 @@ sc_global.loadSearch = function(ids) {
       ,"segmentation":"[[498.84, 308.11, 505.38, 301.57, 512.74, 299.94, 521.32, 300.35, 524.18, 304.03, 524.18, 307.3, 522.14, 307.71, 517.23, 307.3, 512.33, 309.34, 508.65, 311.39, 507.01, 313.43, 507.01, 316.29, 505.79, 319.97, 504.15, 318.33, 501.7, 313.84]]"
     }
     ,{
-      "category+id":31
+      "category_id":31
       ,"image_id":90324
       ,"segmentation":"[[584.33, 328.72, 574.38, 315.33, 570.58, 313.88, 569.31, 312.79, 564.06, 310.98, 560.44, 310.08, 565.69, 307.36, 567.68, 306.82, 571.3, 308.45, 577.27, 312.61, 589.4, 324.01, 585.96, 329.08]]"
     }
   ]
-debugger;
+
   var tags = $("#search_input").tagit("assignedTags");
   // disable search button and show loading
   $('#search_btn').prop("disabled", true);
@@ -217,14 +220,14 @@ sc_global.loadImageByCats = function(tags) {
     sc_global.loadVisualizations(sc_global.popRandImageIds());
   });
   */
-  sc_global.imIdList = [90324];
+
+  sc_global.imIdList = [90324]; //IdList 세팅
   sc_global.loadVisualizations(sc_global.popRandImageIds());
 }
 
 sc_global.loadVisualizations = function(imageIds) {
   if (imageIds.length > 0){
     sc_global.loadImageData(imageIds, function (dataImage) {
-      debugger;
       var imageIds = Object.keys(dataImage);
       for (var j = 0; j < imageIds.length; j++) {
         var imageId = imageIds[j];
@@ -251,7 +254,7 @@ sc_global.loadVisualizations = function(imageIds) {
 
 sc_global.loadImageData = function(imageIds, callback) {
   var imageData = {};
-  $.each(sc_global.tJson, function(i,v){
+  $.each(sc_global.tJson1, function(i,v){
     var imgId = $(this)[0].id;
     imageData[imgId] = {};
     imageData[imgId]['url'] = $(this)[0].url;
@@ -302,37 +305,35 @@ sc_global.loadImageData = function(imageIds, callback) {
   */
 }
 sc_global.createDisplay = function(imageId, captions, catToSegms, url){
-  debugger;
-  //여긴 추가 작업 필요
-  // url
-  var urlIcon = '<span class="exploreIcon" title="url to share this image"><img id="exploreURLIcon" class="exploreIconImage" src="images/cocoicons/url.jpg"></span>'
-  var cocoURL = '<a href="#explore?id=' + imageId + '" target="_blank">' + 'http://cocodataset.org/#explore?id=' + imageId + '</a>';
-  var flickrURL = '<a href="' + url + '" target="_blank">' + url + '</a>';
-  var urlText = url;
-  // caption
-  var captionIcon = '<span class="exploreIcon" style="margin-right:10px" title="show captions"><img id="exploreCaptionIcon" class="exploreIconImage" src="images/cocoicons/sentences.jpg"></span>'
+  // url Icon
+  var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.jpg"></span>'
+  var sc_url = '<a href="#showcase?id=' + imageId + '" target="_blank">' + './#showcase?id=' + imageId + '</a>';
+  var urlText = sc_url + '</br>' + url;
+  // caption icon
+  var captionIcon = '<span class="filterIcon" style="margin-right:10px" title="show captions"><img id="filterCaptionIcon" class="filterIconImage" src="./images/icons/sentences.jpg"></span>'
   var captionText = '<span>' + captions.join('<br>') + '</span>';
-  // icon
+  // category icon
   var catIcons = '';
   var iconIds = Object.keys(catToSegms);
   for (var i = 0; i < iconIds.length; i++) {
-    catIcons += '<span class="exploreIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="exploreIconImage exploreCategoryImage" src="images/cocoicons/' + iconIds[i] + '.jpg"></span>';
+    catIcons += '<span class="filterIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="filterIconImage filterCategoryImage" src="./images/icons/' + iconIds[i] + '.jpg"></span>';
   }
-  // blank
-  var blankIcon = '<span class="exploreIcon" title="hide segmentations"><img id="exploreBlankIcon" class="exploreIconImage" src="images/cocoicons/blank.jpg"></span>';
-  // Create explore image display
+  // blank icon
+  var blankIcon = '<span class="filterIcon" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.jpg"></span>';
+  // image display drawing
   var display =
-  '<div class="imageDisplay" id="imageDisplay' + imageId + '" style="margin-bottom:15px">' +
-  '<div class="icons" style="display:inline-block">' + urlIcon + captionIcon + catIcons + blankIcon + '</div>' +
-  '<div class="url" style="display:none">' + urlText + '</div>' +
-  '<div class="caption" style="display:none">' + captionText + '</div>' +
-  '<div style="margin-top:1px"><canvas class="canvas"></canvas></div>' +
+  '<div class="sc_imageDisplay" id="sc_imageDisplay' + imageId + '" style="margin-bottom:15px">' +
+  '<div class="sc_icons_area" style="display:inline-block">' + urlIcon + captionIcon + catIcons + blankIcon + '</div>' +
+  '<div class="sc_url" style="display:none">' + urlText + '</div>' +
+  '<div class="sc_caption" style="display:none">' + captionText + '</div>' +
+  '<div style="margin-top:1px"><canvas class="sc_canvas"></canvas></div>' +
   '</div>';
-  // Create DOMs
-  $('#imageDisplayList').append(display);
-  var display = $('#imageDisplay' + imageId)
+
+  $('#sc_imageDisplayList').append(display);
+  var display = $('#sc_imageDisplay' + imageId)
+
   // Draw polygon on the image
-  var canvas = display.find('.canvas')[0];
+  var canvas = display.find('.sc_canvas')[0];
   var ctx = canvas.getContext("2d");
   var img = new Image;
   img.src = url;
@@ -342,45 +343,50 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
     sc_global.renderImage(ctx, this);
     sc_global.renderSegms(ctx, this, catToSegms);
   }
+
   // set up data for display
   display.data('image', img); // store image object in display
   display.data('catToSegms', catToSegms); // store image object in display
+
   // Add listener to URL icon
-  display.find('#exploreURLIcon').on('click', function () {
-    var x = $(this).parents('.imageDisplay').find('.url');
+  display.find('#filterURLIcon').on('click', function () {
+    var x = $(this).parents('.sc_imageDisplay').find('.sc_url');
     if (x.css('display') == 'none') x.css('display', 'block');
     else x.css('display', 'none');
   });
-  // Add listeners category icon(s)
-  display.find('#exploreCaptionIcon').on('click', function () {
-    var x = $(this).parents('.imageDisplay').find('.caption');
-    if (x.css('display') == 'none') x.css('display', 'block');
-    else x.css('display', 'none');
+
+  // Add listeners captions icon(s)
+  display.find('#filterCaptionIcon').on('click', function () {
+    var x = $(this).parents('.sc_imageDisplay').find('.sc_caption');
+    if (x.css('display') == 'none'){
+      x.css('display', 'block');
+    } else {
+      x.css('display', 'none');
+    }
   });
+
   // Add listener to category icons
-  var categoryIcons = display.find('.exploreCategoryImage');
+  var categoryIcons = display.find('.filterCategoryImage');
   for (var i = 0; i < categoryIcons.length; i++) {
-    $(categoryIcons[i]).mouseenter(function () {
+    $(categoryIcons[i]).on("mouseenter", function() {
       var iconId = $(this).attr('data');
-      var img = $(this).parents('.imageDisplay').data('image');
-      var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+      var img = $(this).parents('.sc_imageDisplay').data('image');
+      var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
       sc_global.renderImage(ctx, img);
       sc_global.renderSegms(ctx, img, {iconId: catToSegms[iconId]});
-    });
-    $(categoryIcons[i]).mouseout(function () {
-      var img = $(this).parents('.imageDisplay').data('image');
-      var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+    }).on("mouseout", function() {
+      var img = $(this).parents('.sc_imageDisplay').data('image');
+      var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
       sc_global.renderImage(ctx, img);
       sc_global.renderSegms(ctx, img, catToSegms);
     });
   }
   // Add listener to blank icon
-  display.find('#exploreBlankIcon').mouseover(function () {
-    sc_global.renderImage(ctx, $(this).parents('.imageDisplay').data('image'));
-  });
-  display.find('#exploreBlankIcon').mouseout(function () {
-    var img = $(this).parents('.imageDisplay').data('image');
-    var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+  display.find('#filterBlankIcon').on("mouseover", function() {
+    sc_global.renderImage(ctx, $(this).parents('.sc_imageDisplay').data('image'));
+  }).on("mouseout", function() {
+    var img = $(this).parents('.sc_imageDisplay').data('image');
+    var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
     sc_global.renderImage(ctx, img);
     sc_global.renderSegms(ctx, img, catToSegms);
   });

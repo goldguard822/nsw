@@ -1,5 +1,8 @@
 /* common CSS */
-div.showcase_cont_area {width: 800px; margin: auto;}
+div.showcase_cont_area {
+  width: 800px;
+  margin: auto;
+}
 div.showcase_cont_area .iconSubpanel {
   display: inline-block;
   vertical-align: top;
@@ -18,8 +21,13 @@ div.showcase_cont_area .iconSubpanel img.iconSelect {
   border-style: solid;
   cursor: pointer;
 }
-div.showcase_cont_area .search_area {display: inline-block; vertical-align: middle; width: 90%;}
-div.showcase_cont_area .search_btn {display: inline-block;
+div.showcase_cont_area .search_area {
+  display: inline-block;
+  vertical-align: middle;
+  width: 90%;
+}
+div.showcase_cont_area .search_btn {
+  display: inline-block;
   background:#1AAB8A;
   color:#fff;
   border:none;
@@ -54,4 +62,9 @@ div.showcase_cont_area .search_btn:after{
 div.showcase_cont_area .search_btn:hover:before,div.showcase_cont_area .search_btn:hover:after{
   width:100%;
   transition:800ms ease all;
+}
+div.showcase_cont_area .sc_imageDisplay img.filterIconImage {
+  width:30px;
+  height:30px;
+  cursor:pointer;
 }
