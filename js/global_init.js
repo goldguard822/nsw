@@ -155,15 +155,269 @@ sc_global.popRandImageIds = function() {
   return randImIds;
 }
 
-sc_global.loadSearch = function() {
+sc_global.loadSearch = function(ids) {
   sc_global.tJson = [
     {
-    "image_id":90324
-    ,"caption":"A couple holds hands as they walk down a bus street."
-    ,"url":"./images/test/000000090324.jpg"
-    ,"segmentation":"[[498.84, 308.11, 505.38, 301.57, 512.74, 299.94, 521.32, 300.35, 524.18, 304.03, 524.18, 307.3, 522.14, 307.71, 517.23, 307.3, 512.33, 309.34, 508.65, 311.39, 507.01, 313.43, 507.01, 316.29, 505.79, 319.97, 504.15, 318.33, 501.7, 313.84]]"
-    ,"category_id":3
+      "id":90324
+      ,"image_id":90324
+      ,"caption":"A couple holds hands as they walk down a bus street."
+      ,"url":"./images/test/000000090324.jpg"
     }
   ]
+  sc_global.tJson2 = [
+    {
+      "category_id":1
+      ,"image_id":90324
+      ,"segmentation":"[[135.75, 427.0, 131.57, 413.52, 140.35, 405.58, 137.84, 387.2, 131.16, 370.5, 123.22, 357.97, 117.37, 353.79, 110.69, 347.94, 110.69, 347.11, 114.03, 341.68, 114.03, 341.68, 118.63, 331.24, 113.61, 320.79, 109.02, 315.37, 98.58, 313.69, 92.73, 313.69, 88.14, 319.54, 86.05, 326.64, 86.05, 334.16, 86.88, 337.92, 84.38, 340.01, 79.78, 345.44, 76.02, 350.87, 73.1, 353.79, 68.92, 359.64, 67.67, 355.88, 65.17, 360.89, 62.66, 365.9, 60.15, 370.08, 60.15, 370.08, 59.32, 375.09, 66.84, 388.46, 71.43, 394.3, 76.44, 398.48, 81.87, 405.16, 86.47, 410.18, 87.72, 421.45, 89.39, 427.0]]"
+    }
+    ,{
+      "category_id":1
+      ,"image_id":90324
+      ,"segmentation":"[[550.5, 346.69, 550.5, 343.82, 550.5, 339.99, 549.55, 329.46, 549.55, 328.5, 550.5, 323.71, 553.38, 321.8, 560.08, 314.14, 561.04, 311.27, 561.99, 306.48, 561.99, 300.74, 554.33, 294.99, 554.33, 293.08, 553.38, 286.37, 561.04, 276.8, 572.52, 275.84, 577.31, 288.29, 578.27, 289.25, 578.27, 295.95, 588.8, 309.35, 589.76, 311.27, 589.76, 316.05, 589.76, 319.88, 587.84, 329.46, 587.84, 333.29, 583.06, 365.84, 583.06, 377.33, 585.93, 398.39, 580.18, 403.18, 577.31, 412.75, 577.31, 414.67, 571.57, 422.32, 549.55, 418.5, 551.46, 416.58, 552.42, 409.88, 553.38, 408.92, 552.42, 397.43, 548.59, 391.69, 551.46, 381.16, 551.46, 373.5, 550.5, 367.75, 550.5, 359.14, 549.55, 352.43]]"
+    }
+    ,{
+      "category_id":3
+      ,"image_id":90324
+      ,"segmentation":"[[498.84, 308.11, 505.38, 301.57, 512.74, 299.94, 521.32, 300.35, 524.18, 304.03, 524.18, 307.3, 522.14, 307.71, 517.23, 307.3, 512.33, 309.34, 508.65, 311.39, 507.01, 313.43, 507.01, 316.29, 505.79, 319.97, 504.15, 318.33, 501.7, 313.84]]"
+    }
+    ,{
+      "category+id":31
+      ,"image_id":90324
+      ,"segmentation":"[[584.33, 328.72, 574.38, 315.33, 570.58, 313.88, 569.31, 312.79, 564.06, 310.98, 560.44, 310.08, 565.69, 307.36, 567.68, 306.82, 571.3, 308.45, 577.27, 312.61, 589.4, 324.01, 585.96, 329.08]]"
+    }
+  ]
+debugger;
+  var tags = $("#search_input").tagit("assignedTags");
+  // disable search button and show loading
+  $('#search_btn').prop("disabled", true);
+  $('#search_Loading').show();
+  $('#search_Done').hide();
+  if (ids != undefined){
+    sc_global.loadVisualizations(ids);
+  } else if($.isNumeric(tags[0])){
+    sc_global.loadVisualizations([tags[0]]);
+    sc_global.imIdList = [];
+  } else {
+    sc_global.loadImageByCats(tags);
+  }
+}
 
+sc_global.loadImageByCats = function(tags) {
+  var categoryIds = tags.map(function(x){return sc_global.catToId[x];});
+  if (categoryIds.length == 0) categoryIds = [-1];
+  /*
+  var req= {"category_ids": categoryIds, "querytype": "getImagesByCats"};
+  $.ajax({
+    type: 'POST',
+    url: 'https://us-central1-open-images-dataset.cloudfunctions.net/coco-dataset-bigquery',
+    data: req,
+  }).done( function(data) {
+    imIdList = data;
+    $('#search_Count').text(imIdList.length + ' results');
+    sc_global.loadVisualizations(sc_global.popRandImageIds());
+  });
+  */
+  sc_global.imIdList = [90324];
+  sc_global.loadVisualizations(sc_global.popRandImageIds());
+}
+
+sc_global.loadVisualizations = function(imageIds) {
+  if (imageIds.length > 0){
+    sc_global.loadImageData(imageIds, function (dataImage) {
+      debugger;
+      var imageIds = Object.keys(dataImage);
+      for (var j = 0; j < imageIds.length; j++) {
+        var imageId = imageIds[j];
+        var instances = dataImage[imageId]['instances'];
+        var captions = dataImage[imageId]['captions'];
+        var url = dataImage[imageId]['url'];
+        var catToSegms = {};
+        for (var i = 0; i < instances.length; i++) catToSegms[instances[i]['category_id']] = [];
+        for (var i = 0; i < instances.length; i++) {
+          catToSegms[instances[i]['category_id']].push(instances[i]);
+        }
+        sc_global.createDisplay(imageId, captions, catToSegms, url);
+      }
+      // unlock search button
+      $('#search_btn').prop("disabled", false);
+      $('#search_Loading').hide();
+    });
+  }else{
+    // unlock search button
+    $('#search_btn').prop("disabled", false);
+    $('#search_Loading').hide();
+  }
+}
+
+sc_global.loadImageData = function(imageIds, callback) {
+  var imageData = {};
+  $.each(sc_global.tJson, function(i,v){
+    var imgId = $(this)[0].id;
+    imageData[imgId] = {};
+    imageData[imgId]['url'] = $(this)[0].url;
+    imageData[imgId]['instances'] = [];
+    imageData[imgId]['captions'] = [$(this)[0].caption];
+  });
+  $.each(sc_global.tJson2, function(i,v){
+    var imgId = $(this)[0].image_id;
+    imageData[imgId]['instances'].push($(this)[0]);
+  });
+  callback(imageData);
+  /*
+  var promises = [];
+  var querytypes = ["getImages", "getInstances", "getCaptions"];
+  for (var i = 0; i < 3; i++) {
+    var req= {"image_ids": imageIds, "querytype": querytypes[i]};
+    promises.push($.ajax({
+      type: 'POST',
+      url: 'https://us-central1-open-images-dataset.cloudfunctions.net/coco-dataset-bigquery',
+      data: req,
+    }).done(function(data){
+      return data
+    }));
+  }
+  Promise.all(promises).then(function(data) {
+    var images = data[0];
+    var instances = data[1];
+    var captions = data[2];
+    var imageData = {};
+    for (var i=0; i<images.length; i++){
+      var imgId = images[i]['id']
+      imageData[imgId] = {};
+      imageData[imgId]['flickr_url'] = images[i]['flickr_url'];
+      imageData[imgId]['coco_url'] = images[i]['coco_url'];
+      imageData[imgId]['instances'] = [];
+      imageData[imgId]['captions'] = [];
+    }
+    for (var i=0; i<instances.length; i++){
+      var imgId = instances[i]['image_id'];
+      imageData[imgId]['instances'].push(instances[i]);
+    }
+    for (var i=0; i<captions.length; i++){
+      var imgId = captions[i]['image_id'];
+      imageData[imgId]['captions'].push(captions[i]['caption'].toLowerCase());
+    }
+    callback(imageData);
+  });
+  */
+}
+sc_global.createDisplay = function(imageId, captions, catToSegms, url){
+  debugger;
+  //여긴 추가 작업 필요
+  // url
+  var urlIcon = '<span class="exploreIcon" title="url to share this image"><img id="exploreURLIcon" class="exploreIconImage" src="images/cocoicons/url.jpg"></span>'
+  var cocoURL = '<a href="#explore?id=' + imageId + '" target="_blank">' + 'http://cocodataset.org/#explore?id=' + imageId + '</a>';
+  var flickrURL = '<a href="' + url + '" target="_blank">' + url + '</a>';
+  var urlText = url;
+  // caption
+  var captionIcon = '<span class="exploreIcon" style="margin-right:10px" title="show captions"><img id="exploreCaptionIcon" class="exploreIconImage" src="images/cocoicons/sentences.jpg"></span>'
+  var captionText = '<span>' + captions.join('<br>') + '</span>';
+  // icon
+  var catIcons = '';
+  var iconIds = Object.keys(catToSegms);
+  for (var i = 0; i < iconIds.length; i++) {
+    catIcons += '<span class="exploreIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="exploreIconImage exploreCategoryImage" src="images/cocoicons/' + iconIds[i] + '.jpg"></span>';
+  }
+  // blank
+  var blankIcon = '<span class="exploreIcon" title="hide segmentations"><img id="exploreBlankIcon" class="exploreIconImage" src="images/cocoicons/blank.jpg"></span>';
+  // Create explore image display
+  var display =
+  '<div class="imageDisplay" id="imageDisplay' + imageId + '" style="margin-bottom:15px">' +
+  '<div class="icons" style="display:inline-block">' + urlIcon + captionIcon + catIcons + blankIcon + '</div>' +
+  '<div class="url" style="display:none">' + urlText + '</div>' +
+  '<div class="caption" style="display:none">' + captionText + '</div>' +
+  '<div style="margin-top:1px"><canvas class="canvas"></canvas></div>' +
+  '</div>';
+  // Create DOMs
+  $('#imageDisplayList').append(display);
+  var display = $('#imageDisplay' + imageId)
+  // Draw polygon on the image
+  var canvas = display.find('.canvas')[0];
+  var ctx = canvas.getContext("2d");
+  var img = new Image;
+  img.src = url;
+  img.onload = function () {
+    canvas.width = this.width;
+    canvas.height = this.height;
+    sc_global.renderImage(ctx, this);
+    sc_global.renderSegms(ctx, this, catToSegms);
+  }
+  // set up data for display
+  display.data('image', img); // store image object in display
+  display.data('catToSegms', catToSegms); // store image object in display
+  // Add listener to URL icon
+  display.find('#exploreURLIcon').on('click', function () {
+    var x = $(this).parents('.imageDisplay').find('.url');
+    if (x.css('display') == 'none') x.css('display', 'block');
+    else x.css('display', 'none');
+  });
+  // Add listeners category icon(s)
+  display.find('#exploreCaptionIcon').on('click', function () {
+    var x = $(this).parents('.imageDisplay').find('.caption');
+    if (x.css('display') == 'none') x.css('display', 'block');
+    else x.css('display', 'none');
+  });
+  // Add listener to category icons
+  var categoryIcons = display.find('.exploreCategoryImage');
+  for (var i = 0; i < categoryIcons.length; i++) {
+    $(categoryIcons[i]).mouseenter(function () {
+      var iconId = $(this).attr('data');
+      var img = $(this).parents('.imageDisplay').data('image');
+      var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+      sc_global.renderImage(ctx, img);
+      sc_global.renderSegms(ctx, img, {iconId: catToSegms[iconId]});
+    });
+    $(categoryIcons[i]).mouseout(function () {
+      var img = $(this).parents('.imageDisplay').data('image');
+      var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+      sc_global.renderImage(ctx, img);
+      sc_global.renderSegms(ctx, img, catToSegms);
+    });
+  }
+  // Add listener to blank icon
+  display.find('#exploreBlankIcon').mouseover(function () {
+    sc_global.renderImage(ctx, $(this).parents('.imageDisplay').data('image'));
+  });
+  display.find('#exploreBlankIcon').mouseout(function () {
+    var img = $(this).parents('.imageDisplay').data('image');
+    var catToSegms = $(this).parents('.imageDisplay').data('catToSegms');
+    sc_global.renderImage(ctx, img);
+    sc_global.renderSegms(ctx, img, catToSegms);
+  });
+}
+
+sc_global.renderImage = function(ctx, img) {
+  ctx.clearRect(0, 0, img.width, img.height);
+  ctx.drawImage(img, 0, 0);
+}
+
+sc_global.renderSegms = function(ctx, img, data) {
+  var cats = Object.keys(data);
+  for (var i=0; i<cats.length; i++){
+    // set color for each object
+    var segms = data[cats[i]];
+    for (var j=0; j<segms.length; j++){
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      ctx.fillStyle = 'rgba('+r+','+g+','+b+',0.7)';
+      var polys = JSON.parse(segms[j]['segmentation']);
+      // loop over all polygons
+      for (var k=0; k<polys.length; k++){
+        var poly = polys[k];
+        ctx.beginPath();
+        ctx.moveTo(poly[0], poly[1]);
+        for (m=0; m<poly.length-2; m+=2){
+          // let's draw!!!!
+          ctx.lineTo(poly[m+2],poly[m+3]);
+        }
+        ctx.lineTo(poly[0],poly[1]);
+        ctx.lineWidth = 3;
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+      }
+    }
+  }
 }
