@@ -1,4 +1,8 @@
-/* common CSS */
+/* Common CSS */
+div.showcase_header {
+  height:130px;
+  background-color: #2177aa;
+}
 div.showcase_cont_area {
   width: 800px;
   margin: auto;
@@ -28,7 +32,7 @@ div.showcase_cont_area .search_area {
 }
 div.showcase_cont_area .search_btn {
   display: inline-block;
-  background:#1AAB8A;
+  background:#2177aa;
   color:#fff;
   border:none;
   position:relative;
@@ -41,7 +45,7 @@ div.showcase_cont_area .search_btn {
 }
 div.showcase_cont_area .search_btn:hover{
   background:#fff;
-  color:#1AAB8A;
+  color:#2177aa;
 }
 div.showcase_cont_area .search_btn:before,div.showcase_cont_area .search_btn:after{
   content:'';
@@ -50,7 +54,7 @@ div.showcase_cont_area .search_btn:before,div.showcase_cont_area .search_btn:aft
   right:0;
   height:2px;
   width:0;
-  background: #1AAB8A;
+  background: #2177aa;
   transition:400ms ease all;
 }
 div.showcase_cont_area .search_btn:after{
