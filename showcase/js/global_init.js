@@ -48,8 +48,10 @@ sc_global.drawIcon = function() {
     div += '<div class="iconSubpanel">';
     var cats = sc_global.categories[sc_global.superCats[i]];
     $.each(cats,function(j,v){
+  //    div += '<span class="iconSelectWrap">';
       div += '<img title="' + cats[j].name + '" id="icon_' + cats[j].id;
       div += '" class="iconSelect" src="./images/icons/'+cats[j].id+'.jpg" onerror="sc_global.imgError()"/>';
+  //    div += '</span>'
     });
     div += '</div>';
   });
@@ -68,6 +70,14 @@ sc_global.drawIcon = function() {
       } else {
         $("#sc_search_input").tagit("createTag", cat);
       }
+      // click effect 임시 코드
+      /*
+      $(".effects").removeClass("effects");
+      var _this = $(this);
+      setTimeout(function(){
+        _this.closest("span.iconSelectWrap").addClass("effects");
+      }, 200);
+      */
     });
     sc_global.iconSelected.push(icon.attr('title'));
   });
@@ -79,7 +89,7 @@ sc_global.drawIcon = function() {
       var icon = $(this);
       if (icon.attr('title') == tag) {
         icon.data('state', state);
-        var color = state?'#00DD00':'transparent';
+        var color = state?'#2177aa':'transparent';
         icon.css('border-color', color);
       }
     });
@@ -114,15 +124,20 @@ sc_global.drawIcon = function() {
   $('#sc_search_Done').hide();
 
   // if hash is #explore?id then go to given image id on load
+  id = sc_global.checkHash();
+  if(id!=undefined){
+    $("#sc_search_input").tagit("createTag",id);
+    sc_global.loadSearch();
+  }
+}
+
+sc_global.checkHash = function() {
   var hash, args, id;
   hash = window.location.hash;
   hash = hash.substring(hash.indexOf('?')+1);
   args = hash.split('&').map(function(x) {return x.split('=')});
   for (var i=0; i<args.length; i++) if (args[i][0] == 'id') id = args[i][1];
-  if(id!=undefined){
-    $("#sc_search_input").tagit("createTag",id);
-    sc_global.loadSearch();
-  }
+  return id;
 }
 
 sc_global.imgError = function() {

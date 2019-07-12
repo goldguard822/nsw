@@ -1,7 +1,16 @@
 /* Common CSS */
 div.showcase_header {
-  height:130px;
+  height:70px;
   background-color: #2177aa;
+}
+div.showcase_header h1 {
+  margin: auto;
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+  height: 45px;
+  position: relative;
+  top: calc((70px - 45px) / 2);
 }
 div.showcase_cont_area {
   width: 800px;
@@ -24,6 +33,7 @@ div.showcase_cont_area .iconSubpanel img.iconSelect {
   border-color: transparent;
   border-style: solid;
   cursor: pointer;
+  transition: all 0.4s ease-in;
 }
 div.showcase_cont_area .sc_search_area {
   display: inline-block;
@@ -71,4 +81,75 @@ div.showcase_cont_area .sc_imageDisplay img.filterIconImage {
   width:30px;
   height:30px;
   cursor:pointer;
+}
+/* nsw 임시코드 */
+div.showcase_cont_area .iconSubpanel span.iconSelectWrap {
+  position:relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: -1px;
+  width: 35px;
+  height: 35px;
+  border-width: 2px;
+  border-color: transparent;
+  border-style: solid;
+  cursor: pointer;
+  transition: all 0.4s ease-in;
+}
+
+div.showcase_cont_area .iconSubpanel span.iconSelectWrap:before {
+  content: '';
+  /*background-color: aliceblue;*/
+  background-color:#2177aa;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transform: scale(0.001, 0.001);
+          transform: scale(0.001, 0.001);
+}
+div.showcase_cont_area .iconSubpanel span.iconSelectWrap:focus {
+  outline: 0;
+  color: #fff;
+}
+div.showcase_cont_area .iconSubpanel span.iconSelectWrap.effects:before {
+  -webkit-animation: effect_dylan 0.7s ease-out;
+          animation: effect_dylan 0.7s ease-out;
+}
+@-webkit-keyframes effect_dylan {
+  50% {
+    -webkit-transform: scale(1.5, 1.5);
+            transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    -webkit-transform: scale(0.001, 0.001);
+            transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(0.001, 0.001);
+            transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
+}
+@keyframes effect_dylan {
+  50% {
+    -webkit-transform: scale(1.5, 1.5);
+            transform: scale(1.5, 1.5);
+    opacity: 0;
+  }
+  99% {
+    -webkit-transform: scale(0.001, 0.001);
+            transform: scale(0.001, 0.001);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(0.001, 0.001);
+            transform: scale(0.001, 0.001);
+    opacity: 1;
+  }
 }
