@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <style media="screen">
+      body {
+        background-color: TOMATO;
+        color: #cccccc;
+        padding-top: 25%;
+        text-align: center;
+      }
+      .stuff {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+      }
+      h3 {
+        font-family: 'Roboto Condensed';
+        color: #fff;
+        font-weight: 300;
+      }
+      .button {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin: 0 auto;
+        width: 70px;
+        height: 70px;
+        font-size: 52px;
+        transition: all 0.4s ease-in;
+      }
+      .button span[class^='ion'] {
+        position: relative;
+      }
+      .button:before {
+        content: '';
+        background-color: aliceblue;
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        -webkit-transform: scale(0.001, 0.001);
+                transform: scale(0.001, 0.001);
+      }
+      .button:focus {
+        outline: 0;
+        color: #fff;
+      }
+      /*
+      .button:focus:before {
+        -webkit-animation: effect_dylan 0.8s ease-out;
+                animation: effect_dylan 0.8s ease-out;
+      }
+      */
+      .button.effects:before {
+        -webkit-animation: effect_dylan 0.8s ease-out;
+                animation: effect_dylan 0.8s ease-out;
+      }
+      @-webkit-keyframes effect_dylan {
+        50% {
+          -webkit-transform: scale(1.5, 1.5);
+                  transform: scale(1.5, 1.5);
+          opacity: 0;
+        }
+        99% {
+          -webkit-transform: scale(0.001, 0.001);
+                  transform: scale(0.001, 0.001);
+          opacity: 0;
+        }
+        100% {
+          -webkit-transform: scale(0.001, 0.001);
+                  transform: scale(0.001, 0.001);
+          opacity: 1;
+        }
+      }
+      @keyframes effect_dylan {
+        50% {
+          -webkit-transform: scale(1.5, 1.5);
+                  transform: scale(1.5, 1.5);
+          opacity: 0;
+        }
+        99% {
+          -webkit-transform: scale(0.001, 0.001);
+                  transform: scale(0.001, 0.001);
+          opacity: 0;
+        }
+        100% {
+          -webkit-transform: scale(0.001, 0.001);
+                  transform: scale(0.001, 0.001);
+          opacity: 1;
+        }
+      }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("div.button").on("click", function(){
+          $(".button.effects").removeClass("effects");
+          $(this).addClass("effects");
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="stuff">
+        <div class="button" tabindex="1">
+          <span class="ion-help-circled"></span>
+        </div>
+        <div class="button" tabindex="2">
+          <span class="ion-log-in"></span>
+        </div>
+        <div class="button" tabindex="3">
+          <span class="ion-help-buoy"></span>
+        </div>
+        <hr />
+        <h3>Pure CSS Click Effect</h3>
+      </div>
+    </div>
+  </body>
+</html>

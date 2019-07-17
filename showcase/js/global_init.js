@@ -6,6 +6,8 @@ sc_global.catToId = "";
 sc_global.idToCat = "";
 sc_global.iconSelected = [];
 sc_global.imIdList = [];
+sc_global.defaultScale = 0.5;
+sc_global.delta = 0;
 
 sc_global.tJson0 = [];
 sc_global.tJson1 = [];
@@ -180,7 +182,94 @@ sc_global.popRandImageIds = function() {
 
 sc_global.loadSearch = function(ids) {
   //검색결과 요청 필요
-  sc_global.tJson0 = [90324];
+  //sc_global.tJson0 = [90324];
+  sc_global.tJson0 = [4221];
+  sc_global.tJson1 = [
+    {
+      "id": 56039,
+      //"id":4221,
+      "image_id": 4221,
+      "category_id": 26,
+      "url":"./images/test/4221.png",
+      "segmentation": [
+        [
+          395.6,
+          411.6,
+          422.3,
+          472.2,
+          422.3,
+          480.3,
+          310.2,
+          547.4,
+          306.6,
+          547.2,
+          279.2,
+          476.5,
+          281,
+          471.9,
+          391.7,
+          410
+        ]
+      ]
+    },
+    {
+      "id": 56043,
+      // "id":4221,
+      "image_id": 4221,
+      "category_id": 26,
+      "url":"./images/test/4221.png",
+      "segmentation": [
+        [
+          807.9,
+          384.5,
+          838.2,
+          427.1,
+          847.4,
+          447.6,
+          751,
+          540.3,
+          739.5,
+          526.5,
+          710.5,
+          476.6,
+          714.2,
+          468.1,
+          807.6,
+          384.7
+        ]
+      ]
+    },
+    {
+      "id": 56050,
+      // "id":4221,
+      "image_id": 4221,
+      "category_id": 26,
+      "url":"./images/test/4221.png",
+      "segmentation": [
+        [
+          1495.5,
+          328.8,
+          1506.5,
+          356.6,
+          1510.9,
+          383.7,
+          1394.1,
+          406.1,
+          1388.1,
+          405.3,
+          1373,
+          344.7,
+          1391.7,
+          340.4,
+          1492.3,
+          327.8
+        ]
+      ]
+    }
+  ];
+
+
+  /*
   sc_global.tJson1 = [
     {
       "id":90324
@@ -211,6 +300,7 @@ sc_global.loadSearch = function(ids) {
       ,"segmentation":"[[584.33, 328.72, 574.38, 315.33, 570.58, 313.88, 569.31, 312.79, 564.06, 310.98, 560.44, 310.08, 565.69, 307.36, 567.68, 306.82, 571.3, 308.45, 577.27, 312.61, 589.4, 324.01, 585.96, 329.08]]"
     }
   ]
+  */
 
   var tags = $("#sc_search_input").tagit("assignedTags");
   // disable search button and show loading
@@ -243,7 +333,7 @@ sc_global.loadImageByCats = function(tags) {
   });
   */
 
-  sc_global.imIdList = [90324]; //IdList 세팅
+  sc_global.imIdList = sc_global.tJson0; //IdList 세팅
   sc_global.loadVisualizations(sc_global.popRandImageIds());
 }
 
@@ -254,14 +344,13 @@ sc_global.loadVisualizations = function(imageIds) {
       for (var j = 0; j < imageIds.length; j++) {
         var imageId = imageIds[j];
         var instances = dataImage[imageId]['instances'];
-        var captions = dataImage[imageId]['captions'];
         var url = dataImage[imageId]['url'];
         var catToSegms = {};
         for (var i = 0; i < instances.length; i++) catToSegms[instances[i]['category_id']] = [];
         for (var i = 0; i < instances.length; i++) {
           catToSegms[instances[i]['category_id']].push(instances[i]);
         }
-        sc_global.createDisplay(imageId, captions, catToSegms, url);
+        sc_global.createDisplay(imageId, catToSegms, url);
       }
       // unlock search button
       $('#sc_search_btn').prop("disabled", false);
@@ -277,16 +366,28 @@ sc_global.loadVisualizations = function(imageIds) {
 sc_global.loadImageData = function(imageIds, callback) {
   var imageData = {};
   $.each(sc_global.tJson1, function(i,v){
-    var imgId = $(this)[0].id;
-    imageData[imgId] = {};
-    imageData[imgId]['url'] = $(this)[0].url;
-    imageData[imgId]['instances'] = [];
-    imageData[imgId]['captions'] = [$(this)[0].caption];
+    var imgId = $(this)[0].image_id;
+    if (imageData[imgId] == undefined) {
+      imageData[imgId] = {};
+      imageData[imgId]['url'] = $(this)[0].url;
+      imageData[imgId]['instances'] = [];
+    }
+
+    imageData[imgId]['instances'].push(
+      {
+        "category_id" : $(this)[0].category_id,
+        "image_id" : $(this)[0].image_id,
+        "segmentation" : $(this)[0].segmentation
+      }
+    );
   });
+
+  /*
   $.each(sc_global.tJson2, function(i,v){
     var imgId = $(this)[0].image_id;
     imageData[imgId]['instances'].push($(this)[0]);
   });
+  */
   callback(imageData);
   /*
   var promises = [];
@@ -326,14 +427,18 @@ sc_global.loadImageData = function(imageIds, callback) {
   });
   */
 }
-sc_global.createDisplay = function(imageId, captions, catToSegms, url){
+sc_global.createDisplay = function(imageId, catToSegms, url){
+  //이미지 ID 중복체크
+  if($("#sc_imageDisplay" + imageId, "#sc_imageDisplayList").size() > 0) {
+    return;
+  }
   // url Icon
   var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.jpg"></span>'
   var sc_url = '<a href="#showcase?id=' + imageId + '" target="_blank">' + './#showcase?id=' + imageId + '</a>';
   var urlText = sc_url + '</br>' + url;
   // caption icon
-  var captionIcon = '<span class="filterIcon" style="margin-right:10px" title="show captions"><img id="filterCaptionIcon" class="filterIconImage" src="./images/icons/sentences.jpg"></span>'
-  var captionText = '<span>' + captions.join('<br>') + '</span>';
+  //var captionIcon = '<span class="filterIcon" style="margin-right:10px" title="show captions"><img id="filterCaptionIcon" class="filterIconImage" src="./images/icons/sentences.jpg"></span>'
+  //var captionText = '<span>' + captions.join('<br>') + '</span>';
   // category icon
   var catIcons = '';
   var iconIds = Object.keys(catToSegms);
@@ -345,14 +450,15 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
   // image display drawing
   var display =
   '<div class="sc_imageDisplay" id="sc_imageDisplay' + imageId + '" style="margin-bottom:15px">' +
-  '<div class="sc_icons_area" style="display:inline-block">' + urlIcon + captionIcon + catIcons + blankIcon + '</div>' +
+  //'<div class="sc_icons_area" style="display:inline-block">' + urlIcon + captionIcon + catIcons + blankIcon + '</div>' +
+  '<div class="sc_icons_area" style="display:inline-block">' + urlIcon + catIcons + blankIcon + '</div>' +
   '<div class="sc_url" style="display:none">' + urlText + '</div>' +
-  '<div class="sc_caption" style="display:none">' + captionText + '</div>' +
-  '<div style="margin-top:1px"><canvas class="sc_canvas"></canvas></div>' +
+  //'<div class="sc_caption" style="display:none">' + captionText + '</div>' +
+  '<div style="margin-top:1px" id="canvas_div_'+ imageId +'" class="canvas_div"><canvas class="sc_canvas"></canvas></div>' +
   '</div>';
 
   $('#sc_imageDisplayList').append(display);
-  var display = $('#sc_imageDisplay' + imageId)
+  var display = $('#sc_imageDisplay' + imageId);
 
   // Draw polygon on the image
   var canvas = display.find('.sc_canvas')[0];
@@ -360,15 +466,17 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
   var img = new Image;
   img.src = url;
   img.onload = function () {
-    canvas.width = this.width;
-    canvas.height = this.height;
-    sc_global.renderImage(ctx, this);
-    sc_global.renderSegms(ctx, this, catToSegms);
+    canvas.width = this.width * sc_global.defaultScale;
+    canvas.height = this.height * sc_global.defaultScale;
+    sc_global.renderImage(ctx, this, sc_global.defaultScale);
+    sc_global.renderSegms(ctx, this, catToSegms, sc_global.defaultScale);
   }
 
   // set up data for display
   display.data('image', img); // store image object in display
   display.data('catToSegms', catToSegms); // store image object in display
+  display.data('delta', 0);
+  display.data('scale', sc_global.defaultScale);
 
   // Add listener to URL icon
   display.find('#filterURLIcon').on('click', function () {
@@ -378,6 +486,7 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
   });
 
   // Add listeners captions icon(s)
+  /*
   display.find('#filterCaptionIcon').on('click', function () {
     var x = $(this).parents('.sc_imageDisplay').find('.sc_caption');
     if (x.css('display') == 'none'){
@@ -386,6 +495,7 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
       x.css('display', 'none');
     }
   });
+  */
 
   // Add listener to category icons
   var categoryIcons = display.find('.filterCategoryImage');
@@ -394,33 +504,66 @@ sc_global.createDisplay = function(imageId, captions, catToSegms, url){
       var iconId = $(this).attr('data');
       var img = $(this).parents('.sc_imageDisplay').data('image');
       var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
-      sc_global.renderImage(ctx, img);
-      sc_global.renderSegms(ctx, img, {iconId: catToSegms[iconId]});
+      var currScale = $(this).parents('.sc_imageDisplay').data('scale');
+      sc_global.renderImage(ctx, img, currScale);
+      sc_global.renderSegms(ctx, img, {iconId: catToSegms[iconId]}, currScale);
     }).on("mouseout", function() {
       var img = $(this).parents('.sc_imageDisplay').data('image');
       var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
-      sc_global.renderImage(ctx, img);
-      sc_global.renderSegms(ctx, img, catToSegms);
+      var currScale = $(this).parents('.sc_imageDisplay').data('scale');
+      sc_global.renderImage(ctx, img, currScale);
+      sc_global.renderSegms(ctx, img, catToSegms, currScale);
     });
   }
+
   // Add listener to blank icon
   display.find('#filterBlankIcon').on("mouseover", function() {
-    sc_global.renderImage(ctx, $(this).parents('.sc_imageDisplay').data('image'));
+    var currScale = $(this).parents('.sc_imageDisplay').data('scale');
+    sc_global.renderImage(ctx, $(this).parents('.sc_imageDisplay').data('image'), currScale);
   }).on("mouseout", function() {
     var img = $(this).parents('.sc_imageDisplay').data('image');
     var catToSegms = $(this).parents('.sc_imageDisplay').data('catToSegms');
-    sc_global.renderImage(ctx, img);
-    sc_global.renderSegms(ctx, img, catToSegms);
+    var currScale = $(this).parents('.sc_imageDisplay').data('scale');
+    sc_global.renderImage(ctx, img, currScale);
+    sc_global.renderSegms(ctx, img, catToSegms, currScale);
   });
+
+  //Zoom event set
+  var handleZoom = function(evt){
+    var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+    var _act = delta < 0 ? "down" : "up";
+    if (delta) {
+      var _parents = $(this).parents('.sc_imageDisplay');
+      var _delta = _parents.data('delta');
+      var _zoom = Math.pow(1.1, parseInt(_delta + delta));
+      var _currScale = _parents.data('scale');
+      _parents.data('delta', parseFloat(_delta + delta));
+      if ( ( _act == "down" && (_currScale > _zoom)) || (_act == "up") ){
+        _parents.data('scale', parseFloat(_zoom));
+        var img = _parents.data('image');
+        var catToSegms = _parents.data('catToSegms');
+        sc_global.renderImage(ctx, img, _zoom);
+        sc_global.renderSegms(ctx, img, catToSegms, _zoom);
+      }
+    }
+    return evt.preventDefault() && false;
+  };
+  canvas.addEventListener('DOMMouseScroll',handleZoom,false);
+  canvas.addEventListener('mousewheel',handleZoom,false);
 }
 
-sc_global.renderImage = function(ctx, img) {
+sc_global.renderImage = function(ctx, img, zoom) {
+  if (zoom == undefined) zoom = 0.5
   ctx.clearRect(0, 0, img.width, img.height);
-  ctx.drawImage(img, 0, 0);
+  ctx.drawImage(img, 0, 0, img.width*zoom, img.height*zoom);
 }
 
-sc_global.renderSegms = function(ctx, img, data) {
+sc_global.renderSegms = function(ctx, img, data, zoom) {
+  if (zoom == undefined) zoom = 0.5
   var cats = Object.keys(data);
+
+  ctx.save();
+  ctx.setTransform(zoom,0,0,zoom,0,0);
   for (var i=0; i<cats.length; i++){
     // set color for each object
     var segms = data[cats[i]];
@@ -429,7 +572,8 @@ sc_global.renderSegms = function(ctx, img, data) {
       var g = Math.floor(Math.random() * 255);
       var b = Math.floor(Math.random() * 255);
       ctx.fillStyle = 'rgba('+r+','+g+','+b+',0.7)';
-      var polys = JSON.parse(segms[j]['segmentation']);
+      //var polys = JSON.parse(segms[j]['segmentation']);
+      var polys = segms[j]['segmentation'];
       // loop over all polygons
       for (var k=0; k<polys.length; k++){
         var poly = polys[k];
@@ -448,4 +592,5 @@ sc_global.renderSegms = function(ctx, img, data) {
       }
     }
   }
+  ctx.restore();
 }

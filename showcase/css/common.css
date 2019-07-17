@@ -82,7 +82,17 @@ div.showcase_cont_area .sc_imageDisplay img.filterIconImage {
   height:30px;
   cursor:pointer;
 }
-/* nsw 임시코드 */
+div.showcase_cont_area div.canvas_div {
+  user-select : none;
+}
+div.showcase_cont_area div.sc_imageDisplay div.sc_icons_area span.filterIcon {
+  display:inline-block;
+  width:30px;
+  height:30px;
+  margin-right:5px;
+}
+
+/* hover 효과 임시코드 */
 div.showcase_cont_area .iconSubpanel span.iconSelectWrap {
   position:relative;
   display: inline-block;
@@ -100,7 +110,7 @@ div.showcase_cont_area .iconSubpanel span.iconSelectWrap {
 div.showcase_cont_area .iconSubpanel span.iconSelectWrap:before {
   content: '';
   /*background-color: aliceblue;*/
-  background-color:#2177aa;
+  background-color: #2177aa;
   border-radius: 50%;
   display: block;
   position: absolute;
