@@ -339,6 +339,7 @@ sc_global.loadImageByCats = function(tags) {
 
 sc_global.loadVisualizations = function(imageIds) {
   if (imageIds.length > 0){
+    $("div.sc_imageDisplay").remove();
     sc_global.loadImageData(imageIds, function (dataImage) {
       var imageIds = Object.keys(dataImage);
       for (var j = 0; j < imageIds.length; j++) {

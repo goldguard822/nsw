@@ -1,0 +1,88 @@
+/* common */
+header {
+  position:sticky;
+  top:0;
+  left:0;
+  width:100%;
+  height:80px;
+  background-color:#fff;
+  z-index:10;
+}
+
+header div.logo_area {
+  float:left;
+  padding:8px 0;
+  margin-left:50px;
+}
+
+header div.logo_area span#logo {
+  background:url('../images/mpole_main_logo.png') no-repeat;
+  display:inline-block;
+  width:202px;
+  height:60px;
+}
+
+header nav {
+  display:inline-block;
+  height:80px;
+  width:calc(100% - 372px);
+}
+header nav ul.gnb {
+  list-style:none;
+  margin:0;
+  height:80px;
+}
+
+header nav ul.gnb li {
+  float:left;
+  text-align:center;
+  font-weight:bold;
+  width:10%;
+  margin:0 1%;
+  position:relative;
+  height:80px;
+  line-height:80px;
+  cursor:pointer;
+}
+header nav ul.gnb li:hover {
+  border-bottom: 2px solid #333;
+}
+
+header div.lang_select_area {
+  float:right;
+  font-size:12px;
+  width:80px;
+  height:80px;
+  line-height:80px;
+}
+
+.shadow {
+  position: sticky;
+  width: 100%;
+  top: 80px;
+  height: 8px;
+  background-image: linear-gradient(to bottom, #ccc, rgba(0, 0, 0, 0));
+  z-index:8;
+}
+.shadow-cover {
+  position: absolute;
+  width:100%;
+  height: 8px;
+  background: #fff;
+  top: 80px;
+  z-index:9;
+}
+
+section {
+  position:relative;
+  width:100%;
+  height:2000px;
+  background-color:#fff;
+  z-index:0;
+}
+
+span.contents {
+  width:100%;
+  height:50px;
+  display:inline-block;
+}
