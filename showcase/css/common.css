@@ -17,6 +17,9 @@ div.showcase_cont_area {
   width: 800px;
   margin: auto;
 }
+div.showcase_cont_area>h2 {
+  margin:10px 0;
+}
 div.showcase_cont_area .iconSubpanel {
   display: inline-block;
   vertical-align: top;
@@ -91,6 +94,11 @@ div.showcase_cont_area div.sc_imageDisplay div.sc_icons_area span.filterIcon {
   width:30px;
   height:30px;
   margin-right:5px;
+}
+
+#content {
+  color:#333;
+  font-size:13px;
 }
 
 /* hover 효과 임시코드 */
