@@ -1,0 +1,301 @@
+/**
+	Magnetic-popup 문서 :
+	http://dimsemenov.com/plugins/magnific-popup/documentation.html#inline-type
+
+	아래의 white-popup 스타일은 "inline-type" 예제에서 가져옴 :
+	http://codepen.io/dimsemenov/pen/GEKgb
+
+*/
+.white-popup {
+  position: relative;
+  /*  background: #FFF; */
+  padding-top: 20px;
+  width: auto;
+  max-width: 70% !important;
+  margin: 20px auto;
+  height: auto !important;
+}
+
+.white-popup>div {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.ifame-popup {
+  position: relative;
+  padding: 20px;
+  width: auto;
+  margin: 20px auto;
+}
+
+.mfp-close-btn-in .mfp-close {
+  color: #fafafa !important;
+  top: 29px !important;
+  right: 10px !important;
+  font-size: 50px;
+  border: 1px solid #fafafa;
+}
+
+/*팝업 커스터마이징*/
+/*.pop_wrapper div.row:first-child{margin:0; padding:20px;}*/
+.pop_wrapper {
+  background: #fff;
+}
+
+.pop_wrapper_info .pop_body {
+  height: auto !important;
+}
+
+.pop_wrapper h2 {
+  margin: 0;
+  padding: 10px 30px;
+}
+
+.pop_wrapper h3, .pop_wrapper_info h3 {
+  position: relative;
+  font-size: 24px;
+  padding: 15px 0 15px 30px;
+  margin: 0;
+}
+
+.pop_body {
+  padding: 30px;
+  background: #fff;
+  overflow-y: auto;
+  max-height: 650px;
+  height: 500px;
+  clear: both;
+}
+
+.pop_body .sw_tit {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.pop_body .sw_tit::after {
+  content: "";
+  top: 16px;
+}
+
+.pop_body .col-md-4 {
+  text-align: center;
+}
+
+.pop_body a {
+  font-size: 20px;
+  color: #000;
+}
+
+.pop_body a>i {
+  margin-left: 10px;
+}
+
+.pop_body .btn {
+  background: #fff;
+  float: none;
+}
+
+.pop_body .btn:hover {
+  color: #fff;
+  transition: all ease 0.3s;
+}
+
+.pop_body .img-right {
+  text-align: center;
+  border-right: 1px solid #dbdbdb;
+}
+
+.pop_body p {
+  padding: 20px;
+  font-size: 18px;
+  word-break: keep-all;
+}
+
+.tit-pop {
+  float: left;
+  font-size: 15px;
+  padding: 10px;
+  width: 150px;
+}
+
+.desc-txt {
+  display: block;
+  font-size: 15px;
+}
+
+.pop_body ol {
+  padding: 20px 0 20px 40px;
+}
+
+.pop_body ol>li {
+  font-size: 18px;
+  list-style: decimal;
+}
+
+.pop_body .tb02 {
+  margin: 0 20px;
+}
+
+.group01, .group02, .group03 {
+  clear: both;
+  overflow: hidden;
+}
+
+.group02 {
+  text-align: right;
+  margin: 30px 0;
+}
+
+.group03 {
+  text-align: center;
+}
+
+.group01-1 {
+  width: 360px;
+  margin: 0 auto;
+}
+
+.inline-group {
+  float: left;
+  width: 180px;
+}
+
+.inline-group input {
+  margin-right: 5px !important;
+}
+
+.inline-group label {
+  font-size: 18px;
+}
+
+.first-text, .last-text {
+  display: inline-block;
+  font-size: 18px;
+}
+
+.first-text {
+  width: 100px;
+  text-align: center;
+  background: #f1f1f1;
+  margin: 3px 0;
+}
+
+.last-text {
+  min-width: 250px;
+}
+
+.pop_body .btn-apply {
+  display: inline-block;
+  background: #444;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 20px;
+  margin: 0 3px;
+  border-radius: 4px;
+}
+
+.pop_body .btn-cancel {
+  display: inline-block;
+  background: #7b7b7b;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 20px;
+  margin: 0 10px;
+  border-radius: 4px;
+}
+
+.btn-cancel:hover, .btn-apply:hover {
+  color: #fff;
+  background: #919191;
+  transition: all ease 0.3s;
+  text-decoration: none;
+}
+
+/*법률*/
+.down_law {
+  display: inline-block;
+  padding: 10px 0;
+  width: 270px;
+  background: #fff;
+  border: 2px solid #21b6bf;
+}
+
+.down_law:hover {
+  text-decoration: none;
+  background: #21b6bf;
+  color: #000;
+}
+
+.low-h3::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 4px;
+  height: 20px;
+  border-radius: 52px;
+  background: #21b6bf;
+}
+
+.pop_body .txt-p {
+  font-size: 14px;
+  padding: 0;
+  color: #21b6bf;
+}
+
+.redirect-page p {
+  font-size: 20px;
+}
+
+.text01-box {
+  display: inline-block;
+  padding: 3px 6px;
+  margin-left: 6px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  margin-top: 20px;
+}
+
+.redirect-page i {
+  font-size: 70px;
+  color: #ddd;
+}
+
+@media only screen and (max-width:1436px) {
+  .white-popup {
+    max-width: 95% !important;
+  }
+}
+
+@media only screen and (max-width:1100px) {
+  .down_law {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media only screen and (max-width:992px) {
+  .pop_body p {
+    padding: 10px;
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width:480px) {
+  .pop_body {
+    padding: 10px;
+  }
+
+  .redirect-page p {
+    font-size: 16px;
+  }
+
+  .pop_wrapper h3 {
+    padding-left: 10px;
+    font-size: 18px;
+  }
+
+  .pop_body .table-data {
+    overflow-x: auto;
+  }
+}
