@@ -11,7 +11,7 @@ Primary use:    MultiPurpose Template
 
 @import "./font-awesome.min.css";
 @import "./et-line.css";
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,700,700italic,300);
+@import url(//fonts.googleapis.com/css?family=Roboto:400,400italic,500,700,700italic,300);
 
 /*------------------------------------------------------------------
 [Table of contents]
