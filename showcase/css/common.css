@@ -23,19 +23,17 @@ div.showcase_cont_area>h2 {
 div.showcase_cont_area .iconSubpanel {
   display: inline-block;
   vertical-align: top;
-  width: 66px;
+  width: 100%;
   margin: 2px;
   margin-bottom: 10px;
 }
 div.showcase_cont_area .iconSubpanel img.iconSelect {
   display: inline-block;
   vertical-align: top;
-  margin: -1px;
-  width: 35px;
-  height: 35px;
-  border-width: 2px;
-  border-color: transparent;
-  border-style: solid;
+  margin: 5px;
+  width: 75px;
+  height: 75px;
+  border : 1px solid #ccc;
   cursor: pointer;
   transition: all 0.4s ease-in;
 }
