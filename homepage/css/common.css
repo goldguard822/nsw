@@ -51,6 +51,35 @@ header nav ul.gnb li {
   cursor: pointer;
 }
 
+header ul.nav_sub {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #dfdfdf;
+  border-top: 1px solid #ccc;
+  list-style: none;
+  margin: 0;
+  padding : 10px 0px 10px 40px;
+}
+
+header ul.nav_sub li {
+  float: left;
+  width: 100%;
+  list-style: none;
+  text-align: center;
+  width: 18%;
+  min-width: 125px;
+  margin : 0 1%;
+  position: relative;
+  cursor: pointer;
+}
+
+header ul.nav_sub li span {
+  display: inline-block;
+  width: 100%;
+  font-size: 13px;
+  padding: 5px 0px;
+}
+
 .shadow {
   position: fixed;
   position: sticky;
@@ -113,4 +142,80 @@ footer {
   width:100%;
   height:100px;
   background-color:#fff;
+}
+
+/* 메인메뉴 Contents */
+header nav ul.gnb li:nth-child(1)::before {
+  content : 'Vertical Market';
+}
+header nav ul.gnb li:nth-child(2)::before {
+  content : 'Solution';
+}
+header nav ul.gnb li:nth-child(3)::before {
+  content : 'Product';
+}
+header nav ul.gnb li:nth-child(4)::before {
+  content : 'Company';
+}
+header nav ul.gnb li:nth-child(5)::before {
+  content : 'Board';
+}
+
+/* 서브메뉴 Contents */
+/* 첫번째 메인메뉴 Contents 명*/
+header ul.nav_sub li:nth-child(1) span:nth-child(1)::before {
+  content : 'Building / Office';
+}
+header ul.nav_sub li:nth-child(1) span:nth-child(2)::before {
+  content : 'Factory / Plant';
+}
+header ul.nav_sub li:nth-child(1) span:nth-child(3)::before {
+  content : 'Apartment';
+}
+header ul.nav_sub li:nth-child(1) span:nth-child(4)::before {
+  content : 'Retail / Mall';
+}
+header ul.nav_sub li:nth-child(1) span:nth-child(5)::before {
+  content : 'Hospital';
+}
+
+/* 두번째 메인메뉴 Contents 명*/
+header ul.nav_sub li:nth-child(2) span:nth-child(1)::before {
+  content : '통합 관제 플랫폼';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(2)::before {
+  content : '외곽 방호 솔루션';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(3)::before {
+  content : '방문자 예약 관리 솔루션';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(4)::before {
+  content : '위치 기반 솔루션';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(5)::before {
+  content : '3D Vision 솔루션';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(6)::before {
+  content : '저장 영상 암호화 솔루션';
+}
+header ul.nav_sub li:nth-child(2) span:nth-child(7)::before {
+  content : '반출 영상 마스킹 솔루션';
+}
+
+/* 세번째 메인메뉴 Contents 명*/
+header ul.nav_sub li:nth-child(3) span:nth-child(1)::before {
+  content : 'MPR Series';
+}
+
+/* 네번째 메인메뉴 Contents 명*/
+header ul.nav_sub li:nth-child(4) span:nth-child(1)::before {
+  content : '';
+}
+
+/* 다섯번째 메인메뉴 Contents 명*/
+header ul.nav_sub li:nth-child(5) span:nth-child(1)::before {
+  content : 'Notice';
+}
+header ul.nav_sub li:nth-child(5) span:nth-child(2)::before {
+  content : '자료실';
 }

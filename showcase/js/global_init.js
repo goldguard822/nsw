@@ -63,12 +63,14 @@ sc_global.drawIcon = function() {
   var div = '', i, j;
   //$.each(sc_global.superCats, function(i,v){
     div += '<div class="iconSubpanel">';
-    //var cats = sc_global.categories[sc_global.superCats[i]];
+  //var cats = sc_global.categories[sc_global.superCats[i]];
     var cats = sc_global.categories;
     $.each(cats,function(j,v){
   //    div += '<span class="iconSelectWrap">';
-      div += '<img title="' + cats[j].name + '" id="icon_' + cats[j].id;
-      div += '" class="iconSelect" src="./images/icons/new/'+cats[j].id+'.jpg" onerror="sc_global.imgError()"/>';
+      div += '<span class="iconwrap" title="'+ cats[j].name +'">';
+      div +=  '<span class="selected_area"></span>';
+      div +=  '<img title="' + cats[j].name + '" id="icon_' + cats[j].id + '" class="iconSelect" src="./images/icons/new/'+ cats[j].id +'.jpg" onerror="sc_global.imgError()"/>';
+      div += '</span>';
   //    div += '</span>'
     });
     div += '</div>';
@@ -76,7 +78,9 @@ sc_global.drawIcon = function() {
   $('#sc_IconPanel').append(div);
 
   // icon event binding
-  var icons = $(".iconSelect");
+  //var icons = $(".iconSelect");
+  //var icons = $(".selected_area");
+  var icons = $(".iconwrap");
   $.each(icons, function(i,v){
     var icon = $(this);
     icon.data('state', false);
@@ -103,13 +107,20 @@ sc_global.drawIcon = function() {
 
   // tagit setting
   var setTag = function(tag,state) {
-    var icons = $(".iconSelect");
+    //var icons = $(".iconSelect");
+    var icons = $(".iconwrap");
     $.each(icons, function(i,v){
       var icon = $(this);
       if (icon.attr('title') == tag) {
         icon.data('state', state);
-        var color = state?'#2177aa':'#ccc';
-        icon.css('border-color', color);
+        var selected = $(this).children("span.selected_area");
+        if (state) {
+          selected.addClass("on");
+        } else {
+          selected.removeClass("on");
+        }
+        //var color = state?'#2177aa':'#ccc';
+        //icon.css('border-color', color);
       }
     });
   };
@@ -160,7 +171,7 @@ sc_global.checkHash = function() {
 }
 
 sc_global.imgError = function() {
-  event.srcElement.src = "./images/icons/1.jpg";
+  event.srcElement.src = "./images/icons/new/1.jpg";
 }
 
 sc_global.setScroll = function() {
@@ -206,7 +217,7 @@ sc_global.loadSearch = function(ids) {
       "id": 56039,
       //"id":4221,
       "image_id": 4221,
-      "category_id": 26,
+      "category_id": 28,
       "url":"./images/test/4221.png",
       "segmentation": [
         [
@@ -233,7 +244,7 @@ sc_global.loadSearch = function(ids) {
       "id": 56043,
       // "id":4221,
       "image_id": 4221,
-      "category_id": 26,
+      "category_id": 28,
       "url":"./images/test/4221.png",
       "segmentation": [
         [
@@ -260,7 +271,7 @@ sc_global.loadSearch = function(ids) {
       "id": 56050,
       // "id":4221,
       "image_id": 4221,
-      "category_id": 26,
+      "category_id": 28,
       "url":"./images/test/4221.png",
       "segmentation": [
         [
@@ -391,13 +402,11 @@ sc_global.loadImageData = function(imageIds, callback) {
       imageData[imgId]['instances'] = [];
     }
 
-    imageData[imgId]['instances'].push(
-      {
+    imageData[imgId]['instances'].push({
         "category_id" : $(this)[0].category_id,
         "image_id" : $(this)[0].image_id,
         "segmentation" : $(this)[0].segmentation
-      }
-    );
+    });
   });
 
   /*
@@ -461,7 +470,7 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
   var catIcons = '';
   var iconIds = Object.keys(catToSegms);
   for (var i = 0; i < iconIds.length; i++) {
-    catIcons += '<span class="filterIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="filterIconImage filterCategoryImage" src="./images/icons/' + iconIds[i] + '.jpg"></span>';
+    catIcons += '<span class="filterIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="filterIconImage filterCategoryImage" src="./images/icons/new/' + iconIds[i] + '.jpg"></span>';
   }
   // blank icon
   var blankIcon = '<span class="filterIcon" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.jpg"></span>';

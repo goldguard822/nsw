@@ -18,8 +18,8 @@ mpole_global.locationBind = function() {
 
 mpole_global.locationHashChanged = function(e) {
   var _hash = location.hash;
-  $("div#container div.container_cont").empty();
-  var _target = $("div#container");
+  $("section.container_cont").empty();
+  var _target = $("section.container");
   $.ajax({
     url : "./"+ _hash.replace(/\#/,"") +".html"
     ,type : "GET"
@@ -37,13 +37,17 @@ mpole_global.locationHashChanged = function(e) {
 }
 
 mpole_global.setGnb = function() {
-  $(".gnb_btn").off("click").on("click", function(){
+  //Gnb Click Event
+  $("ul.gnb").off("click").on("click", function(){
+    $("ul.nav_sub").slideToggle("slow", function(){
+
+    });
+  });
+
+  //Gnb Sub Click Event
+  $("ul.nav_sub>li>span").off("click").on("click", function(){
     var _nvname = $(this).attr("role");
     location.hash = _nvname;
-    /*
-    var _container = $("div#container");
-    $("div.container_cont", _container).hide();
-    $("div[role='"+ _nvname +"']", _container).show();
-    */
+    $("ul.gnb").trigger("click");
   });
 }
