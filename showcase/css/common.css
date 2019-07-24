@@ -60,9 +60,21 @@ div.showcase_cont_area .iconSubpanel span.selected_area {
   width: 75px;
   height: 75px;
   margin: 1px;
+  cursor : pointer;
+  background-color:transparent;
+  background: url('../images/icons/selected.png') no-repeat 0px 0px;
+  transition: all ease 1.5s 0s;
+  -moz-transition: all ease 1.5s 0s;
+  -webkit-transition: all ease 1.5s 0s;
+  opacity: 0;
 }
 div.showcase_cont_area .iconSubpanel span.selected_area.on {
-  background-image : url('../images/icons/selected.png');
+  background: url('../images/icons/selected.png') no-repeat 0px 0px;
+  background-color: rgba(29,44,62,0.4);
+  transition: all ease 1.5s 0s;
+  -moz-transition: all ease 1.5s 0s;
+  -webkit-transition: all ease 1.5s 0s;
+  opacity: 1;
 }
 div.showcase_cont_area .iconSubpanel img.iconSelect {
   display: inline-block;
@@ -71,7 +83,11 @@ div.showcase_cont_area .iconSubpanel img.iconSelect {
   height: 75px;
   border : 1px solid #ccc;
   cursor: pointer;
-  transition: all 0.4s ease-in;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 div.showcase_cont_area .sc_search_area {
   display: inline-block;
