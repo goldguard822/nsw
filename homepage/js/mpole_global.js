@@ -2,6 +2,7 @@ function mpole_global(){};
 mpole_global.init = function() {
   mpole_global.locationBind();
   mpole_global.setGnb();
+  mpole_global.eventBind();
 }
 
 mpole_global.locationBind = function() {
@@ -49,5 +50,12 @@ mpole_global.setGnb = function() {
     var _nvname = $(this).attr("role");
     location.hash = _nvname;
     $("ul.gnb").trigger("click");
+  });
+}
+
+mpole_global.eventBind = function() {
+  //mobile, tablet 기기 메뉴 버튼 event binding..
+  $("div.mobile_menu_btn").off("click").on("click", function(){
+    $("header>nav").toggleClass("on");
   });
 }
