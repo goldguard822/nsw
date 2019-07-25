@@ -56,6 +56,6 @@ mpole_global.setGnb = function() {
 mpole_global.eventBind = function() {
   //mobile, tablet 기기 메뉴 버튼 event binding..
   $("div.mobile_menu_btn").off("click").on("click", function(){
-    $("header>nav").toggleClass("on");
+    $("header>nav>div.nav_wrap").toggleClass("on");
   });
 }

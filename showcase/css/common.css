@@ -62,14 +62,14 @@ div.showcase_cont_area .iconSubpanel span.selected_area {
   margin:1px;
   cursor:pointer;
   background-color:transparent;
-  background:url('../images/icons/selected.png') no-repeat 0px 0px;
+  background:url('../images/icons/checked.png') no-repeat 0px 0px;
   transition:all ease .5s 0s;
   -moz-transition:all ease .5s 0s;
   -webkit-transition:all ease .5s 0s;
   opacity:0;
 }
 div.showcase_cont_area .iconSubpanel span.selected_area.on {
-  background:url('../images/icons/selected.png') no-repeat 0px 0px;
+  background:url('../images/icons/checked.png') no-repeat 0px 0px;
   background-color:rgba(29, 44, 62, .55);
   transition:all ease .5s 0s;
   -moz-transition:all ease .5s 0s;

@@ -1,6 +1,6 @@
 /* common */
 body {
-  overflow:none;
+  overflow:hidden;
 }
 header {
   position: fixed;
@@ -32,20 +32,13 @@ header nav {
   display: inline-block;
   height: 80px;
   width: calc(100% - 252px);
-  transition:all ease .5s 0s;
-  -moz-transition:all ease .5s 0s;
-  -webkit-transition:all ease .5s 0s;
 }
 
-header nav.on {
-  left:0px;
-  transition:all ease .5s 0s;
-  -moz-transition:all ease .5s 0s;
-  -webkit-transition:all ease .5s 0s;
+header nav div.nav_wrap.pc {
+  display:block;
 }
-
-header nav div.mobile_nav_top {
-  display: none;
+header nav div.nav_wrap.mobile {
+  display:none;
 }
 
 header nav ul.gnb {
@@ -97,6 +90,7 @@ header ul.nav_sub li span {
 }
 
 header div.mobile_menu_btn {
+  position:absolute;
   display: none;
   float: right;
   width: 40px;
@@ -189,60 +183,60 @@ header nav ul.gnb li:nth-child(5)::before {
 
 /* 서브메뉴 Contents */
 /* 첫번째 메인메뉴 Contents 명*/
-header ul.nav_sub li:nth-child(1) span:nth-child(1)::before {
+header ul.nav_sub li.nav_sub_1 span:nth-child(1)::before {
   content : 'Building / Office';
 }
-header ul.nav_sub li:nth-child(1) span:nth-child(2)::before {
+header ul.nav_sub li.nav_sub_1 span:nth-child(2)::before {
   content : 'Factory / Plant';
 }
-header ul.nav_sub li:nth-child(1) span:nth-child(3)::before {
+header ul.nav_sub li.nav_sub_1 span:nth-child(3)::before {
   content : 'Apartment';
 }
-header ul.nav_sub li:nth-child(1) span:nth-child(4)::before {
+header ul.nav_sub li.nav_sub_1 span:nth-child(4)::before {
   content : 'Retail / Mall';
 }
-header ul.nav_sub li:nth-child(1) span:nth-child(5)::before {
+header ul.nav_sub li.nav_sub_1 span:nth-child(5)::before {
   content : 'Hospital';
 }
 
 /* 두번째 메인메뉴 Contents 명*/
-header ul.nav_sub li:nth-child(2) span:nth-child(1)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(1)::before {
   content : '통합 관제 플랫폼';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(2)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(2)::before {
   content : '외곽 방호 솔루션';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(3)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(3)::before {
   content : '방문자 예약 관리 솔루션';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(4)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(4)::before {
   content : '위치 기반 솔루션';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(5)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(5)::before {
   content : '3D Vision 솔루션';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(6)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(6)::before {
   content : '저장 영상 암호화 솔루션';
 }
-header ul.nav_sub li:nth-child(2) span:nth-child(7)::before {
+header ul.nav_sub li.nav_sub_2 span:nth-child(7)::before {
   content : '반출 영상 마스킹 솔루션';
 }
 
 /* 세번째 메인메뉴 Contents 명*/
-header ul.nav_sub li:nth-child(3) span:nth-child(1)::before {
+header ul.nav_sub li.nav_sub_3 span:nth-child(1)::before {
   content : 'MPR Series';
 }
 
 /* 네번째 메인메뉴 Contents 명*/
-header ul.nav_sub li:nth-child(4) span:nth-child(1)::before {
+header ul.nav_sub li.nav_sub_4 span:nth-child(1)::before {
   content : '';
 }
 
 /* 다섯번째 메인메뉴 Contents 명*/
-header ul.nav_sub li:nth-child(5) span:nth-child(1)::before {
+header ul.nav_sub li.nav_sub_5 span:nth-child(1)::before {
   content : 'Notice';
 }
-header ul.nav_sub li:nth-child(5) span:nth-child(2)::before {
+header ul.nav_sub li.nav_sub_5 span:nth-child(2)::before {
   content : '자료실';
 }
 
@@ -284,22 +278,64 @@ header ul.nav_sub li:nth-child(5) span:nth-child(2)::before {
   header {
     height: 40px;
   }
-  header nav {
+  header navv {
     position: absolute;
-    display: inline-block;
-    left: -201px;
-    top: 0;
-    width: 200px;
-    height: 500px;
+    left: 0px;
+    top: -1000px;
+    width: 100%;
+    /*height: 500px;*/
     background-color: #fff;
     border: 1px solid #ddd;
+    /*
+    transition: all ease .5s 0s;
+    -moz-transition: all ease .5s 0s;
+    -webkit-transition: all ease .5s 0s;
+    */
   }
-  header nav div.mobile_nav_top {
+  header nav div.nav_wrap.pc {
+    display:none;
+  }
+  header nav div.nav_wrap.mobile {
+    display:none;
+    left:0;
+    top:-1000px;
+  }
+  header nav div.nav_wrap.mobile.on {
+    position:absolute;
+    left: 0px;
+    top: 41px;
+    right: 0px;
     display: inline-block;
-    width: 200px;
+    height: auto;
+    background-color:#fff;
+    /*
+    transition: all ease .5s 0s;
+    -moz-transition: all ease .5s 0s;
+    -webkit-transition: all ease .5s 0s;
+    */
+  }
+  header nav div.nav_wrap.mobile.on ul.nav_sub {
+    display:none;
+  }
+
+  header nav ul.gnb {
+    list-style: none;
+    margin: 0;
+    height: 80px;
+    padding: 0px;
+  }
+
+  header nav ul.gnb li {
+    text-align: left;
+    text-indent: 20px;
+    width: 100%;
+    min-width: unset;
+    margin: 0;
     height: 40px;
+    line-height: 40px;
     border-bottom: 1px solid #ddd;
   }
+  
   header div.logo_area {
     margin-left: 20px;
   }
