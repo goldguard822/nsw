@@ -1,6 +1,7 @@
 /* common */
 body {
-  overflow:hidden;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 header {
   position: fixed;
@@ -9,7 +10,7 @@ header {
   left: 0;
   width: 100%;
   height: 80px;
-  background-color: #fff;
+  background-color: rgba(255,255,255,.5);
   z-index: 10;
 }
 
@@ -93,11 +94,11 @@ header div.mobile_menu_btn {
   position:absolute;
   display: none;
   float: right;
-  width: 40px;
+  width: 60px;
   height: 40px;
   background: url('../images/menu_bar.png') no-repeat;
-  background-position: center;
-  background-size: 30px 30px;
+  background-position: left;
+  background-size: 50%;
 }
 
 .shadow {
@@ -122,23 +123,22 @@ header div.mobile_menu_btn {
 section {
   position: relative;
   width: 100%;
-  height: 2000px;
+  height: 12000px;
   background-color: #fff;
   z-index: 0;
 }
 
 /* scrollbar css */
+/*
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  /*background-color: #F5F5F5;*/
-  display: none
+  display: none;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
-  /*background-color: #F5F5F5;*/
   background: none;
 }
 
@@ -148,7 +148,7 @@ section {
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   background-color: #999;
 }
-
+*/
 span.contents {
   width: 100%;
   height: 50px;
@@ -238,153 +238,4 @@ header ul.nav_sub li.nav_sub_5 span:nth-child(1)::before {
 }
 header ul.nav_sub li.nav_sub_5 span:nth-child(2)::before {
   content : '자료실';
-}
-
-/* 해상도를 기준으로 device별 CSS 적용 */
-/*
-##Device = Desktops
-##Screen = 1281px to higher resolution desktops
-##Device = 데스크탑
-##Screen = 1281px 이상 해상도 데스크탑
-*/
-
-@media only screen and (min-width: 1281px) {
-
-
-
-}
-
-/*
-##Device = Laptops, Desktops
-##Screen = B/w 1025px to 1280px
-##Device = 랩탑, 데스크탑
-##Screen = 1025px에서 1280px 사이
-*/
-
-@media only screen and (min-width: 1025px) and (max-width: 1280px) {
-
-
-
-}
-
-/*
-##Device = Tablets, Ipads (portrait),
-##Screen = B/w 768px to 1024px
-##Device = 태블릿, 아이패드(세로),
-##Screen = 768px에서 1024px 사이
-*/
-
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  header {
-    height: 40px;
-  }
-  header navv {
-    position: absolute;
-    left: 0px;
-    top: -1000px;
-    width: 100%;
-    /*height: 500px;*/
-    background-color: #fff;
-    border: 1px solid #ddd;
-    /*
-    transition: all ease .5s 0s;
-    -moz-transition: all ease .5s 0s;
-    -webkit-transition: all ease .5s 0s;
-    */
-  }
-  header nav div.nav_wrap.pc {
-    display:none;
-  }
-  header nav div.nav_wrap.mobile {
-    display:none;
-    left:0;
-    top:-1000px;
-  }
-  header nav div.nav_wrap.mobile.on {
-    position:absolute;
-    left: 0px;
-    top: 41px;
-    right: 0px;
-    display: inline-block;
-    height: auto;
-    background-color:#fff;
-    /*
-    transition: all ease .5s 0s;
-    -moz-transition: all ease .5s 0s;
-    -webkit-transition: all ease .5s 0s;
-    */
-  }
-  header nav div.nav_wrap.mobile.on ul.nav_sub {
-    display:none;
-  }
-
-  header nav ul.gnb {
-    list-style: none;
-    margin: 0;
-    height: 80px;
-    padding: 0px;
-  }
-
-  header nav ul.gnb li {
-    text-align: left;
-    text-indent: 20px;
-    width: 100%;
-    min-width: unset;
-    margin: 0;
-    height: 40px;
-    line-height: 40px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  header div.logo_area {
-    margin-left: 20px;
-  }
-  .shadow {
-    top:40px;
-  }
-  header div.logo_area span#logo {
-    height: 30px;
-  }
-  header div.mobile_menu_btn {
-    display: inline-block;
-  }
-}
-
-/*
-##Device = Tablets, Ipads (landscape)
-##Screen = B/w 768px to 1024px
-##Device = 태블릿, 아이패드(가로)
-##Screen = 768px에서 1024px 사이
-*/
-
-@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
-
-
-}
-
-/*
-##Device = Low Resolution Tablets, Mobiles (Landscape)
-##Screen = B/w 481px to 767px
-##Device = 저해상도 태블릿, 모바일(가로)
-##Screen = 481px에서 767px 사이
-*/
-
-@media only screen and (min-width: 481px) and (max-width: 767px) {
-
-
-
-}
-
-/*
-##Device = Most of the Smartphones Mobiles (Portrait)
-##Screen = B/w 320px to 479px
-##Device = 대부분의 스마트폰 모바일 기기(세로)
-##Screen = 320px에서 479px 사이
-*/
-
-@media only screen and (min-width: 320px) and (max-width: 480px) {
-  section {
-    background-color:green;
-  }
 }

@@ -1,8 +1,44 @@
 function mpole_global(){};
 mpole_global.init = function() {
+  mpole_global.setResize();
+  mpole_global.setScroll();
   mpole_global.locationBind();
   mpole_global.setGnb();
   mpole_global.eventBind();
+}
+
+mpole_global.setResize = function() {
+  $(window).resize(function(){
+    var _width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth;
+    if (_width > 1023) {
+      $("header#home_header").css("top", "0px");
+    }
+  });
+}
+
+mpole_global.setScroll = function() {
+  //var _useragent = navigator.userAgent;
+  //var _ismobile = false;
+  // 모바일인 경우
+  //if (navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)) {
+
+  //}
+  var lastScrollTop = 0, delta = 20;
+  $(window).scroll(function (event) {
+    var _width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth;
+    if (_width < 1024) {
+      var st = $(this).scrollTop();
+      if (Math.abs(lastScrollTop - st) <= delta) return;
+      if ((st > lastScrollTop) && (lastScrollTop > 0)) {
+          $("header#home_header").css("top", "-1000px");
+          $("div.shadow").css("top", "-960px");
+      } else {
+          $("header#home_header").css("top", "0px");
+          $("div.shadow").css("top", "40px");
+      }
+      lastScrollTop = st;
+    }
+  });
 }
 
 mpole_global.locationBind = function() {

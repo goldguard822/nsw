@@ -95,6 +95,9 @@ div.showcase_cont_area .sc_search_area {
   height:32px;
   width:90%;
 }
+div.showcase_cont_area .sc_search_area ul.tagit {
+  margin:0;
+}
 div.showcase_cont_area .sc_search_btn {
   display:inline-block;
   background:#2177aa;
