@@ -123,7 +123,7 @@ header div.mobile_menu_btn {
   left: 0;
   right: 0;
   height: 8px;
-  background-image: linear-gradient(to bottom, #ccc, rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0));
   z-index: 8;
 }
 
