@@ -108,6 +108,7 @@ header div.logo_area {
   top:40px;
   height:4px;
   background-image: linear-gradient(to bottom, #efefef, rgba(0, 0, 0, 0));
+  background-image: -webkit-linear-gradient(to bottom, #efefef, rgba(0, 0, 0, 0));
   z-index: 8;
 }
 
