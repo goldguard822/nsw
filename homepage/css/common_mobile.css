@@ -106,7 +106,7 @@ header div.logo_area {
 
 .shadow {
   top:40px;
-  height:6px;
+  height:4px;
   background-image: linear-gradient(to bottom, #efefef, rgba(0, 0, 0, 0));
   z-index: 8;
 }
