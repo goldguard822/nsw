@@ -117,7 +117,7 @@ header div.mobile_menu_btn {
 
 .shadow {
   position: fixed;
-  position: sticky;
+  /*position: sticky;*/
   width: 100%;
   top: 80px;
   height: 8px;
