@@ -4,8 +4,14 @@ body {
   overflow-x:hidden;
 }
 header {
+  position: relative;
+  height: 80px;
+  padding: 0px;
+  background-color: #fff;
+}
+header div.home_header_inner {
   position: fixed;
-  position: sticky;
+  /*position: sticky;*/
   top: 0;
   left: 0;
   width: 100%;
@@ -48,7 +54,7 @@ header nav ul.gnb {
   height: 80px;
 }
 
-header nav ul.gnb li {
+header nav ul.gnb>li {
   float: left;
   text-align: center;
   font-weight: bold;
@@ -61,17 +67,17 @@ header nav ul.gnb li {
   cursor: pointer;
 }
 
-header ul.nav_sub {
+header nav div.nav_wrap.pc ul.nav_sub {
   display: inline-block;
   background-color: #fff;
   border: 1px solid #dfdfdf;
   border-top: 1px solid #ccc;
   list-style: none;
   margin: 0;
-  padding : 10px 0px 10px 40px;
+  padding : 10px 0px;
 }
 
-header ul.nav_sub li {
+header ul.nav_sub>li {
   float: left;
   width: 100%;
   list-style: none;
@@ -82,8 +88,16 @@ header ul.nav_sub li {
   position: relative;
   cursor: pointer;
 }
+header div.nav_wrap.mobile ul.nav_sub>li {
+  width: 100%;
+  display: table;
+  list-style: none;
+  text-align: left;
+  position: relative;
+  cursor: pointer;
+}
 
-header ul.nav_sub li span {
+header ul.nav_sub>li span {
   display: inline-block;
   width: 100%;
   font-size: 13px;
@@ -129,7 +143,6 @@ section {
 }
 
 /* scrollbar css */
-/*
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
@@ -148,7 +161,7 @@ section {
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   background-color: #999;
 }
-*/
+
 span.contents {
   width: 100%;
   height: 50px;
@@ -165,19 +178,19 @@ footer {
 }
 
 /* 메인메뉴 Contents */
-header nav ul.gnb li:nth-child(1)::before {
+header nav ul.gnb>li:nth-child(1)::before {
   content : 'Vertical Market';
 }
-header nav ul.gnb li:nth-child(2)::before {
+header nav ul.gnb>li:nth-child(2)::before {
   content : 'Solution';
 }
-header nav ul.gnb li:nth-child(3)::before {
+header nav ul.gnb>li:nth-child(3)::before {
   content : 'Product';
 }
-header nav ul.gnb li:nth-child(4)::before {
+header nav ul.gnb>li:nth-child(4)::before {
   content : 'Company';
 }
-header nav ul.gnb li:nth-child(5)::before {
+header nav ul.gnb>li:nth-child(5)::before {
   content : 'Board';
 }
 
