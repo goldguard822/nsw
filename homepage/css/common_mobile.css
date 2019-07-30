@@ -110,12 +110,8 @@ header div.logo_area {
 
 .shadow {
   top:40px;
-  height:6px;
-  /*background-color: #ddd;*/
-  background: linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0,));
-  background: -webkit-linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0));
-  background: -moz-linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0,));
-  background: -o-linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0));
+  height:1px;
+  background-color: #ddd;
 }
 
 header div.logo_area span#logo {
