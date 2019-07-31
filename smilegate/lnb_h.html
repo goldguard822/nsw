@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+<title>Left Menu</title>
+<script>
+$(document).ready(function(){
+  //$("[role='togglemenu']").hide();
+  $("a.toggle").off("click").on("click",function(){
+    if ($(this).hasClass("on")) {
+      $(this).removeClass("on").addClass("off");
+      $(this).siblings("ul[role='togglemenu']").removeClass("on").addClass("off");
+    } else if ($(this).hasClass("off")) {
+      $(this).removeClass("off").addClass("on");
+      $(this).siblings("ul[role='togglemenu']").removeClass("off").addClass("on");
+    }
+  });
+  /* 스크립트 추가 시작 */
+  //LNB 최상위 메뉴 클릭 시
+  $("ul.LnbMn>li").on("click", function(){
+    var _istoggle = $(this).find("ul[role='togglemenu']").size() > 0 ? true : false; //토글메뉴인지 여부
+    if (!_istoggle) { //토글메뉴가 아닐경우
+      var _menus = $("ul.LnbMn").children("li");  //LNB 최상위 메뉴 전체
+      _menus.removeClass("on"); //LNB 최상위 메뉴 전체 on 클래스 제거
+
+      var _submenus = $("li", "ul.LnbMn_subMn[role='togglemenu']");  //subMenu 전체
+      _submenus.removeClass("on");  //subMenu 전체 on 클래스 제거
+
+      $(this).addClass("on");  //현재 클릭한 최상위 메뉴 on 클래스 추가
+    }
+  });
+
+  //LNB 서브메뉴 클릭 시
+  $("li", "ul.LnbMn_subMn[role='togglemenu']").on("click", function(e){
+    e.stopPropagation() || e.preventDefault();
+    var _menus = $("ul.LnbMn").children("li");  //LNB 최상위 메뉴 전체
+    _menus.removeClass("on"); //LNB 최상위 메뉴 전체 on 클래스 제거
+
+    var _submenus = $("li", "ul.LnbMn_subMn[role='togglemenu']");  //subMenu 전체
+    _submenus.removeClass("on");  //subMenu 전체 on 클래스 제거
+
+    var _parents = $(this).parents("ul.LnbMn_subMn");
+    $(_parents[0]).parent().addClass("on");  //현재 클릭한 subMenu의 최상위 메뉴 on 클래스 추가
+    $(this).addClass("on");  //현재 클릭한 subMenu on 클래스 추가
+  });
+  /* 스크립트 추가 끝 */
+});
+</script>
+<style>
+    html,body,ul,li,div,span,a{margin:0; padding:0; box-sizing:border-box;}
+    ul,li{list-style:none;}
+    h4, ul{margin:0; padding:0;}
+    .clearfix:before, .clearfix:after {display: block; content: ' '; line-height: 0;}
+    .clearfix:after {clear: both;}
+    .fl{float:left;}
+    .fr{float:right;}
+    .pdR7{padding-right:7px;}
+    .pdR4{padding-right:4px !important;}
+    .widAuto{width:auto !important;}
+    .LnbWrap{width:200px;}
+    .LnbWrap .LnbTtArea {height:40px; background:#fafafa; border-bottom: 1px solid #dbe1e5;}
+    h4{font-size: 15px; color: #9e9e9e; line-height:40px; text-align:center;}
+    ul.LnbMn a {text-decoration:none;}
+    ul.LnbMn{width:100%;}
+    ul.LnbMn > li:before, ul.LnbMn > li:after {display: block; content: ' '; line-height: 0;}
+    ul.LnbMn > li:after {clear: both;}
+    ul.LnbMn > li {border-bottom:1px solid #dbe1e5; position:relative;}
+    ul.LnbMn > li:hover {background:#eef7ff;}
+
+    /* Style 추가 시작 */
+    ul.LnbMn > li.on {background:#eef7ff;}
+    ul.LnbMn > li.on > a {color:tomato;}
+    ul.LnbMn_subMn > li.on a {color:#005cff;}
+    /* style 추가 끝 */
+
+    ul.LnbMn > li > a {display:inline-block; width:100%; padding:0 12px;font-size:14px; height:35px; line-height:35px; color:#000;}
+    ul.LnbMn > li > a.toggle{position:relative;}
+    ul.LnbMn > li > a.toggle:before{content: ''; position: absolute; right: 12px; width: 6px; height: 12px;
+        background:transparent url(images/arrow_h.png) no-repeat 0 0; background-size:6px; top: 42%; margin-top: -2px; transition: all 0.2s;}
+    ul.LnbMn > li > a.toggle.on:before{transform: rotate(-180deg);}
+    ul.LnbMn_subMn {position:absolute; background:#fff; padding:0; left:200px; top:-1px; width:0px; border:none; transition: all linear 0.3s 0s;}
+    ul.LnbMn_subMn > li {line-height:40px; height:40px; width:100%; vertical-align: middle; overflow:hidden;}
+    ul.LnbMn_subMn > li:not(:last-child) {border-bottom:1px solid #ddd;}
+    ul.LnbMn_subMn a {font-size:12px; padding:0 4px 0 24px; line-height:40px; color:#000;}
+    ul.LnbMn_subMn a:hover {color:#005cff;}
+    ul.LnbMn_subMn div.option {display:table-cell; height:40px; vertical-align: middle;}
+    ul.LnbMn_subMn div.option span{display:inline-block; margin-right:7px; line-height:40px; height:40px;}
+    /* lnb_2depth option*/
+    ul.LnbMn_subMn div.option span.ico_new{background:url('images/new.png') no-repeat center; background-size:10px; width:10px; font-size:0; text-indent: -9999;}
+    ul.LnbMn_subMn div.option span.ico_txtTag{background:url('images/txttag.png') no-repeat center; background-size:20px; width:20px; font-size:0; text-indent: -9999;}
+    ul.LnbMn_subMn div.option span.txt_posts {font-size: 9px; color: #90a4ae;}
+    ul.LnbMn > li > div.option > span{display:inline-block; margin-right:7px; line-height:35px; height:35px;}
+    ul.LnbMn > li > div.option > span.ico_new{background:url('images/new.png') no-repeat center; background-size:10px; width:10px; font-size:0; text-indent: -9999;}
+    ul.LnbMn > li > div.option > span.ico_txtTag{background:url('images/txttag.png') no-repeat center; background-size:20px; width:20px; font-size:0; text-indent: -9999;}
+    ul.LnbMn > li > div.option > span.txt_posts{font-size: 9px; color: #90a4ae;}
+
+    /*ul.LnbMn_subMn {position:absolute; left:200px; width:0px; padding:0; border:1px solid #dbe1e5; top:-1px;}*/
+    ul.LnbMn_subMn.on {width:200px; transition: all linear 0.3s 0s; border:1px solid #dbe1e5;}
+
+</style>
+</head>
+<body>
+    <div class="LnbWrap">
+        <div class="LnbTtArea">
+            <h4 class="LnbTitle">소통&공유</h4>
+        </div>
+        <ul class="LnbMn">
+            <li>
+                <a href="#">스마일광장</a>
+            </li>
+            <li>
+                <a href="#">스마일리뷰광장</a>
+            </li>
+            <li>
+                <a href="#" class="toggle off">스마일락</a>
+                <ul class="LnbMn_subMn" role="togglemenu">
+                    <li class="clearfix">
+                        <a href="#" class="fl">공지사항</a>
+                        <div class="option clearfix">
+                            <span class="ico_new fl">NEW</span>
+                            <span class="ico_txtTag fl">권한</span>
+                            <span class="txt_posts fl">[100]</span>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <a href="#" class="fl">스마일락 er</a>
+                        <div class="option clearfix">
+                            <span class="ico_new fl">NEW</span>
+                            <span class="ico_txtTag fl">권한</span>
+                            <span class="txt_posts fl">[100]</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="toggle off">스마일학</a>
+                <ul class="LnbMn_subMn" role="togglemenu">
+                    <li class="clearfix">
+                        <a href="#" class="fl">공지사항</a>
+                        <div class="option clearfix">
+                            <span class="ico_new fl">NEW</span>
+                            <span class="ico_txtTag fl">권한</span>
+                            <span class="txt_posts fl">[100]</span>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <a href="#" class="fl">스마일학</a>
+                        <div class="option clearfix">
+                            <span class="ico_new fl">NEW</span>
+                            <span class="ico_txtTag fl">권한</span>
+                            <span class="txt_posts fl">[100]</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">업계동향</a>
+            </li>
+            <li>
+                <a href="#" class="widAuto pdR4 fl">뉴스레터</a>
+                <div class="option fl">
+                    <span class="ico_new fl">NEW</span>
+                    <span class="ico_txtTag fl">권한</span>
+                    <span class="txt_posts fl">[100]</span>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="widAuto pdR4 fl">역사관(임시)</a>
+                <div class="option fl">
+                    <span class="ico_new fl">NEW</span>
+                    <span class="ico_txtTag fl">권한</span>
+                </div>
+            </li>
+            <li>
+                <a href="#">자유게시판</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
