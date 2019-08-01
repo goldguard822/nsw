@@ -12,15 +12,15 @@ $(document).ready(function(){
     var _toggleUL = $(this).siblings("ul[role='togglemenu']");
     if ($(this).hasClass("on")) {
       $(this).removeClass("on").addClass("off");
-      _toggleUL.removeClass("on").addClass("off");
+      _toggleUL.removeClass("on");
       setTimeout(function(){
         _toggleUL.hide();
       },300);
     } else if ($(this).hasClass("off")) {
-      $("a.toggle.on").removeClass("on");
-      $("ul[role='togglemenu']").removeClass("on");
-      $(this).removeClass("off").addClass("on");
-      _toggleUL.show().removeClass("off").addClass("on");
+      $("a.toggle").removeClass("on").addClass("off");
+      $("ul[role='togglemenu']").removeClass("on").hide();
+      $(this).addClass("on");
+      _toggleUL.show().addClass("on");
     }
   });
   /* 스크립트 추가 시작 */
@@ -86,7 +86,7 @@ $(document).ready(function(){
     ul.LnbMn > li > a.toggle:before{content: ''; position: absolute; right: 12px; width: 6px; height: 12px;
         background:transparent url(images/arrow_h.png) no-repeat 0 0; background-size:6px; top: 42%; margin-top: -2px; transition: all 0.2s;}
     ul.LnbMn > li > a.toggle.on:before{transform: rotate(-180deg);}
-    ul.LnbMn_subMn {position:absolute; background:#fff; padding:0; left:200px; top:-1px; width:0px; border:none; transition: all ease 0.3s 0s; -webkit-transition: all ease 0.3s 0s; border:1px solid #dbe1e5;}
+    ul.LnbMn_subMn {position:absolute; background:#fff; padding:0; left:200px; top:-1px; width:0px; transition: all ease 0.3s 0s; -webkit-transition: all ease 0.3s 0s; border:0px solid #dbe1e5;}
     ul.LnbMn_subMn > li {line-height:40px; height:40px; width:100%; vertical-align: middle; overflow:hidden;}
     ul.LnbMn_subMn > li:not(:last-child) {border-bottom:1px solid #ddd;}
     ul.LnbMn_subMn a {font-size:12px; padding:0 4px 0 24px; line-height:40px; color:#000;}
