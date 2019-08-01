@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPole Homepage Layout Sample</title>
     <link rel="stylesheet" href="/common/css/reset.css">
+    <link rel="stylesheet" href="/common/css/swiper.min.css">
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" media="(max-width:1024px)" href="./css/common_mobile.css">
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="./js/mpole_global.js"></script>
+    <script type="text/javascript" src="/common/js/swiper.min.js"></script>
+
     <script type="text/javascript">
       $(document).ready(function(){
         mpole_global.init();
@@ -117,46 +120,24 @@
     <!--div class="shadow-cover"></div-->
     <section class="container">
       <article class="" style="width:100%; height:500px; background-color:antiquewhite">
-
+        <div class="swiper-container" style="width:100%;height:100%;">
+          <div class="swiper-scrollbar"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image:url('./images/1.jpg');"></div>
+            <div class="swiper-slide" style="background-image:url('./images/2.jpg');"></div>
+            <div class="swiper-slide" style="background-image:url('./images/3.jpg');"></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
       </article>
       <article class="card_area" style="width:100%; height:300px; background-color:lemonchiffon;">
-        <section class="card">
-          1
-        </section>
-        <section class="card">
-          2
-        </section>
-        <section class="card">
-          3
-        </section>
-        <section class="card">
-          4
-        </section>
+        <section class="card" style="background-color:beige;"></section>
+        <section class="card" style="background-color:aquamarine;"></section>
+        <section class="card" style="background-color:antiquewhite;"></section>
+        <section class="card" style="background-color:coral;"></section>
       </article>
-
-
-      <!-- span class="contents">Contents...Contents...Contents...Contents...Contents...Contents...Contents...Contents...Contents...Contents...Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span>
-      <span class="contents">Contents...</span -->
     </section>
     <footer>
 
