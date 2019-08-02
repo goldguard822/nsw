@@ -18,11 +18,11 @@ mpole_global.setSwiper = function() {
     centeredSlides: true,
     slideToClickedSlide: true,
     grabCursor: true,
-    scrollbar: {
-      el: '.swiper-scrollbar',
-    },
+    // scrollbar: {
+    //   el: '.swiper-scrollbar',
+    // },
     mousewheel: {
-      enabled: true,
+      enabled: false,
     },
     keyboard: {
       enabled: true,
@@ -30,9 +30,13 @@ mpole_global.setSwiper = function() {
     pagination: {
       el: '.swiper-pagination',
     },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
+    // navigation: {
+    //   nextEl: '.swiper-button-next',
+    //   prevEl: '.swiper-button-prev',
+    // },
+    effect: "cube",
+    autoplay : {
+      delay : 3000
     }
   });
 }
