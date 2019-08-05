@@ -16,6 +16,7 @@ mpole_global.setSwiper = function() {
     spaceBetween: 50,
     slidesPerView: 2,
     centeredSlides: true,
+    centerInsufficientSlides : true,
     slideToClickedSlide: true,
     grabCursor: true,
     // scrollbar: {
@@ -30,13 +31,17 @@ mpole_global.setSwiper = function() {
     pagination: {
       el: '.swiper-pagination',
     },
-    // navigation: {
-    //   nextEl: '.swiper-button-next',
-    //   prevEl: '.swiper-button-prev',
-    // },
-    effect: "cube",
+     navigation: {
+       nextEl: '.swiper-button-next',
+       prevEl: '.swiper-button-prev',
+    },
     autoplay : {
       delay : 3000
+    },
+    effect: "flip",
+    cubeEffect: {
+     shadow: false,
+     slideShadows: false,
     }
   });
 }

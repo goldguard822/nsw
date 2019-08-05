@@ -121,3 +121,14 @@ header div.logo_area span#logo {
 header div.mobile_menu_btn {
   display: inline-block;
 }
+
+article.card_area {
+	padding: 0 10px;
+	text-align: center;
+}
+div.card figure {
+	display: inline-block;
+	float: none;
+	margin: 10px auto;
+	width: 100%;
+}

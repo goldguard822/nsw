@@ -1,4 +1,7 @@
 /* common */
+h2 {
+  font-size:1.5em;
+}
 body {
   overflow-y:auto;
   overflow-x:hidden;
@@ -19,13 +22,11 @@ header div.home_header_inner {
   background-color: rgba(255,255,255,.9);
   z-index: 10;
 }
-
 header div.logo_area {
   float: left;
   padding: 8px 0;
   margin-left: 50px;
 }
-
 header div.logo_area span#logo {
   background: url('../images/mpole_main_logo.png') no-repeat;
   background-size: 50%;
@@ -34,26 +35,22 @@ header div.logo_area span#logo {
   width: 202px;
   height: 60px;
 }
-
 header nav {
   display: inline-block;
   height: 80px;
   width: calc(100% - 252px);
 }
-
 header nav div.nav_wrap.pc {
   display:block;
 }
 header nav div.nav_wrap.mobile {
   display:none;
 }
-
 header nav ul.gnb {
   list-style: none;
   margin: 0;
   height: 80px;
 }
-
 header nav ul.gnb>li {
   float: left;
   text-align: center;
@@ -66,11 +63,9 @@ header nav ul.gnb>li {
   line-height: 80px;
   cursor: pointer;
 }
-
 header nav div.nav_wrap.pc ul.gnb>li::before, header nav ul.gnb>li::after {
   transition:all .5s;
 }
-
 header nav div.nav_wrap.pc ul.gnb>li::after {
   position: absolute;
   bottom: 0;
@@ -83,11 +78,9 @@ header nav div.nav_wrap.pc ul.gnb>li::after {
   background: cadetblue;
   height: 2px;
 }
-
 header nav div.nav_wrap.pc ul.gnb>li:hover:after {
   width: 100%;
 }
-
 header nav div.nav_wrap.pc ul.nav_sub {
   display: inline-block;
   background-color: #fff;
@@ -97,7 +90,6 @@ header nav div.nav_wrap.pc ul.nav_sub {
   margin: 0;
   padding : 10px 0px;
 }
-
 header ul.nav_sub>li {
   float: left;
   width: 100%;
@@ -117,14 +109,12 @@ header div.nav_wrap.mobile ul.nav_sub>li {
   position: relative;
   cursor: pointer;
 }
-
 header ul.nav_sub>li span {
   display: inline-block;
   width: 100%;
   font-size: 13px;
   padding: 5px 0px;
 }
-
 header div.mobile_menu_btn {
   position:absolute;
   display: none;
@@ -135,7 +125,6 @@ header div.mobile_menu_btn {
   background-position: left;
   background-size: 50%;
 }
-
 .shadow {
   position: fixed;
   /*position: sticky;*/
@@ -147,7 +136,6 @@ header div.mobile_menu_btn {
   background-image: linear-gradient(to bottom, #ddd, rgba(0, 0, 0, 0));
   z-index: 8;
 }
-
 .shadow-cover {
   position: absolute;
   width: 100%;
@@ -156,7 +144,6 @@ header div.mobile_menu_btn {
   top: 80px;
   z-index: 9;
 }
-
 section.container {
   position: relative;
   width: 100%;
@@ -172,30 +159,46 @@ section.container {
   border-radius: 5px;
   display: none;
 }
-
 ::-webkit-scrollbar {
   width: 6px;
   background: none;
 }
-
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
   background-color: #999;
 }
+/* Swiper set Start*/
+.swiper-wrapper .swiper-slide:nth-child(1) {
+  background: url('../images/1.jpg') center center no-repeat;
+}
+.swiper-wrapper .swiper-slide:nth-child(2) {
+  background: url('../images/2.jpg') center center no-repeat;
+}
+.swiper-wrapper .swiper-slide:nth-child(3) {
+  background: url('../images/3.jpg') center center no-repeat;
+}
+/* Swiper set End*/
 
 /* Card Hover Effect Start */
 article.card_area {
   margin: 50px 0px;
 }
-
-section.card figure {
+div.card {
+  position: relative;
+  margin: 0 auto;
+  /*padding: 1em 0 4em;*/
+  max-width: 1000px;
+  list-style: none;
+  text-align: center;
+}
+div.card figure {
   position: relative;
   float: left;
   overflow: hidden;
   margin: 10px 1%;
-  min-width: 320px;
+  min-width: 400px;
   max-width: 480px;
   max-height: 360px;
   width: 48%;
@@ -204,44 +207,21 @@ section.card figure {
   text-align: center;
   cursor: pointer;
 }
-section.card figure figcaption, figure figcaption > a{
+div.card figure img {
+  position: relative;
+  display: block;
+  min-height: 100%;
+  max-width: 100%;
+  opacity: 0.8;
+}
+div.card figure figcaption, figure figcaption > a{
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 }
-section.card figure figcaption a {
-  z-index: 1000;
-  text-indent: 200%;
-  white-space: nowrap;
-  font-size: 0;
-  opacity: 0;
-}
-/* appolo */
-figure.effect-appolo {
-  background: #3085a3;
-}
-
-figure.effect-appolo img {
-  opacity: 0.95;
-  -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
-  transition: opacity 0.35s, transform 0.35s;
-  -webkit-transform: scale3d(1.05,1.05,1);
-  transform: scale3d(1.05,1.05,1);
-  position: relative;
-  display: block;
-  min-height: 100%;
-  max-width: 100%;
-}
-
-figure.effect-appolo:hover img {
-  opacity: 0.6;
-  -webkit-transform: scale3d(1,1,1);
-  transform: scale3d(1,1,1);
-}
-
-figure.effect-appolo figcaption {
+div.card figure figcaption {
   padding: 2em;
   color: #fff;
   text-transform: uppercase;
@@ -249,149 +229,235 @@ figure.effect-appolo figcaption {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-figure.effect-appolo figcaption::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255,255,255,0.5);
-  content: '';
-  -webkit-transition: -webkit-transform 0.6s;
-  transition: transform 0.6s;
-  -webkit-transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
-  transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
+div.card figure figcaption h2 {
+  word-spacing: -0.15em;
+  font-weight: 300;
+  box-sizing: border-box;
 }
-figure.effect-appolo:hover figcaption::before {
-  transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,100%,0);
+div.card figure figcaption h2 span {
+  font-weight: 800;
 }
-figure.effect-appolo figcaption h2{
-  text-align: left;
-  font-size: 23px;
+div.card figure figcaption p {
+  box-sizing: border-box;
 }
-
-figure.effect-appolo p {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin: 3em 1em 3em 3em;
-  padding: 0 1em;
-  max-width: 150px;
-  border-right: 4px solid #fff;
-  text-align: right;
+div.card figure figcaption a {
+  z-index: 1000;
+  text-indent: 200%;
+  white-space: nowrap;
+  font-size: 0;
   opacity: 0;
-  -webkit-transition: opacity 0.35s;
-  transition: opacity 0.35s;
 }
 
-figure.effect-appolo:hover p {
-  opacity: 1;
-  -webkit-transition-delay: 0.1s;
-  transition-delay: 0.1s;
+/* apollo */
+figure.effect-apollo {
+	background: #3498db;
 }
-
-/* layla*/
-figure.effect-layla {
-	background: #18a367;
+figure.effect-apollo img {
+	opacity: 0.95;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: scale3d(1.05,1.05,1);
+	transform: scale3d(1.05,1.05,1);
 }
-
-figure.effect-layla img {
-	height: 390px;
-}
-
-figure.effect-layla figcaption {
-	padding: 3em;
-}
-
-figure.effect-layla figcaption::before,
-figure.effect-layla figcaption::after {
+figure.effect-apollo figcaption::before {
 	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255,255,255,0.5);
+	content: '';
+	-webkit-transition: -webkit-transform 0.6s;
+	transition: transform 0.6s;
+	-webkit-transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
+	transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,-100%,0);
+}
+figure.effect-apollo p {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 3em;
+	padding: 0 1em;
+	max-width: 150px;
+	border-right: 4px solid #fff;
+	text-align: right;
+	opacity: 0;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
+}
+figure.effect-apollo h2 {
+	text-align: left;
+}
+figure.effect-apollo:hover img {
+	opacity: 0.6;
+	-webkit-transform: scale3d(1,1,1);
+	transform: scale3d(1,1,1);
+}
+figure.effect-apollo:hover figcaption::before {
+	-webkit-transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,100%,0);
+	transform: scale3d(1.9,1.4,1) rotate3d(0,0,1,45deg) translate3d(0,100%,0);
+}
+figure.effect-apollo:hover p {
+	opacity: 1;
+	-webkit-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+}
+
+/* ming */
+figure.effect-ming {
+	background: #030c17;
+}
+figure.effect-ming img {
+	opacity: 0.9;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
+}
+figure.effect-ming figcaption::before {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	bottom: 30px;
+	left: 30px;
+	border: 2px solid #fff;
+	box-shadow: 0 0 0 30px rgba(255,255,255,0.2);
 	content: '';
 	opacity: 0;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: scale3d(1.4,1.4,1);
+	transform: scale3d(1.4,1.4,1);
 }
-
-figure.effect-layla figcaption::before {
-	top: 50px;
-	right: 30px;
-	bottom: 50px;
-	left: 30px;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #fff;
-	-webkit-transform: scale(0,1);
-	transform: scale(0,1);
-	-webkit-transform-origin: 0 0;
-	transform-origin: 0 0;
-}
-
-figure.effect-layla figcaption::after {
-	top: 30px;
-	right: 50px;
-	bottom: 30px;
-	left: 50px;
-	border-right: 1px solid #fff;
-	border-left: 1px solid #fff;
-	-webkit-transform: scale(1,0);
-	transform: scale(1,0);
-	-webkit-transform-origin: 100% 0;
-	transform-origin: 100% 0;
-}
-
-figure.effect-layla h2 {
-	padding-top: 26%;
+figure.effect-ming h2 {
+	margin: 20% 0 10px 0;
 	-webkit-transition: -webkit-transform 0.35s;
 	transition: transform 0.35s;
 }
-
-figure.effect-layla p {
-	padding: 0.5em 2em;
-	text-transform: none;
+figure.effect-ming p {
+	padding: 1em;
 	opacity: 0;
-	-webkit-transform: translate3d(0,-10px,0);
-	transform: translate3d(0,-10px,0);
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: scale(1.5);
+	transform: scale(1.5);
+}
+figure.effect-ming:hover h2 {
+	-webkit-transform: scale(0.9);
+	transform: scale(0.9);
+}
+figure.effect-ming:hover figcaption::before,
+figure.effect-ming:hover p {
+	opacity: 1;
+	-webkit-transform: scale3d(1,1,1);
+	transform: scale3d(1,1,1);
+}
+figure.effect-ming:hover figcaption {
+	background-color: rgba(58,52,42,0);
+}
+figure.effect-ming:hover img {
+	opacity: 0.4;
 }
 
-figure.effect-layla img,
-figure.effect-layla h2 {
-	-webkit-transform: translate3d(0,-30px,0);
-	transform: translate3d(0,-30px,0);
+/* moses */
+figure.effect-moses {
+	background: -webkit-linear-gradient(-45deg, #EC65B7 0%,#05E0D8 100%);
+	background: linear-gradient(-45deg, #EC65B7 0%,#05E0D8 100%);
+}
+figure.effect-moses img {
+	opacity: 0.85;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
+}
+figure.effect-moses h2,
+figure.effect-moses p {
+	padding: 20px;
+	width: 50%;
+	height: 50%;
+	border: 2px solid #fff;
+}
+figure.effect-moses h2 {
+	padding: 20px;
+	width: 50%;
+	height: 50%;
+	text-align: left;
+	-webkit-transition: -webkit-transform 0.35s;
+	transition: transform 0.35s;
+	-webkit-transform: translate3d(10px,10px,0);
+	transform: translate3d(10px,10px,0);
+}
+figure.effect-moses p {
+	float: right;
+	padding: 20px;
+	text-align: right;
+	opacity: 0;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: translate3d(-50%,-50%,0);
+	transform: translate3d(-50%,-50%,0);
+}
+figure.effect-moses:hover h2 {
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+figure.effect-moses:hover p {
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+figure.effect-moses:hover img {
+	opacity: 0.6;
 }
 
-figure.effect-layla img,
-figure.effect-layla figcaption::before,
-figure.effect-layla figcaption::after,
-figure.effect-layla p {
+/* Marley */
+figure.effect-marley figcaption {
+	text-align: right;
+}
+figure.effect-marley h2,
+figure.effect-marley p {
+	position: absolute;
+	right: 30px;
+	left: 30px;
+	padding: 10px 0;
+}
+figure.effect-marley p {
+	bottom: 30px;
+	line-height: 1.5;
+	-webkit-transform: translate3d(0,100%,0);
+	transform: translate3d(0,100%,0);
+}
+figure.effect-marley h2 {
+	top: 30px;
+	-webkit-transition: -webkit-transform 0.35s;
+	transition: transform 0.35s;
+	-webkit-transform: translate3d(0,20px,0);
+	transform: translate3d(0,20px,0);
+}
+figure.effect-marley:hover h2 {
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+figure.effect-marley h2::after {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: #fff;
+	content: '';
+	-webkit-transform: translate3d(0,40px,0);
+	transform: translate3d(0,40px,0);
+}
+figure.effect-marley h2::after,
+figure.effect-marley p {
+	opacity: 0;
 	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
 	transition: opacity 0.35s, transform 0.35s;
 }
-
-figure.effect-layla:hover img {
-	opacity: 0.7;
-	-webkit-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
-}
-
-figure.effect-layla:hover figcaption::before,
-figure.effect-layla:hover figcaption::after {
-	opacity: 1;
-	-webkit-transform: scale(1);
-	transform: scale(1);
-}
-
-figure.effect-layla:hover h2,
-figure.effect-layla:hover p {
+figure.effect-marley:hover h2::after,
+figure.effect-marley:hover p {
 	opacity: 1;
 	-webkit-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
 }
-
-figure.effect-layla:hover figcaption::after,
-figure.effect-layla:hover h2,
-figure.effect-layla:hover p,
-figure.effect-layla:hover img {
-	-webkit-transition-delay: 0.15s;
-	transition-delay: 0.15s;
-}
-
 
 /* Card Hover Effect End */
 
@@ -400,7 +466,6 @@ span.contents {
   height: 50px;
   display: inline-block;
 }
-
 footer {
   position:fixed;
   bottom:0;
