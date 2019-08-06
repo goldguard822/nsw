@@ -122,6 +122,7 @@ header div.mobile_menu_btn {
   display: inline-block;
 }
 
+/* Card Hover Effect Start */
 article.card_area {
 	padding: 0 10px;
 	text-align: center;
@@ -132,3 +133,4 @@ div.card figure {
 	margin: 10px auto;
 	width: 100%;
 }
+/* Card Hover Effect End */
