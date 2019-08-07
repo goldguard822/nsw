@@ -20,25 +20,24 @@ sc_global.init = function(){
 sc_global.setData = function(){
   //카테고리 정보 연동
   //var _url = "./data/category.json";
-  var _url = "http://if.dataset.co.kr/Cats";
+  var _url = "http://192.168.0.127/Cats";
   $.ajax({
     url : _url
     ,method : "POST"
     ,async : true
+    ,crossdomain : true
     ,datatype : "json"
     ,cache : false
     ,success : function(data, status, xhr){
-      debugger;
-      sc_global.categories = data.category;
+      sc_global.categories = data;
       $.each(sc_global.categories, function(i,v){
-        sc_global.catNames.push($(this)[0].name);
-        sc_global.catToId[$(this)[0].name] = $(this)[0].id;
-        sc_global.idToCat[$(this)[0].id] = $(this)[0].name;
+        sc_global.catNames.push($(this)[0].category_name);
+        sc_global.catToId[$(this)[0].category_name] = $(this)[0].category_id;
+        sc_global.idToCat[$(this)[0].category_id] = $(this)[0].category_name;
       });
       sc_global.drawIcon();
     }
     ,error : function(xhr, status, err) {
-      debugger;
       alert("카테고리 데이터를 가져오는 중 오류가 발생하였습니다.");
     }
   });
@@ -51,9 +50,9 @@ sc_global.drawIcon = function() {
   div += '<div class="iconSubpanel">';
   var cats = sc_global.categories;
   $.each(cats,function(j,v){
-    div += '<span class="iconwrap" title="'+ cats[j].name +'">';
+    div += '<span class="iconwrap" title="'+ cats[j].category_name +'">';
     div +=  '<span class="selected_area"></span>';
-    div +=  '<img title="' + cats[j].name + '" id="icon_' + cats[j].id + '" class="iconSelect" src="./images/icons/new/'+ cats[j].id +'.jpg" onerror="sc_global.imgError()"/>';
+    div +=  '<img title="' + cats[j].category_name + '" id="icon_' + cats[j].category_id + '" class="iconSelect" src="./images/icons/new/'+ cats[j].category_id +'.jpg" onerror="sc_global.imgError()"/>';
     div += '</span>';
   });
   div += '</div>';
@@ -117,8 +116,12 @@ sc_global.drawIcon = function() {
       alert("카테고리를 선택하세요.");
       return false;
     }
+    var _sel_ids = [];
+    $.each(_tagit, function(i,v){
+      _sel_ids.push(sc_global.catToId[v]);
+    });
     sc_global.clearCanvas();
-    sc_global.loadSearch()
+    sc_global.loadSearch(_sel_ids);
   });
   $('#sc_search_Loading').hide();
   $('#sc_search_Done').hide();
@@ -182,11 +185,22 @@ sc_global.popRandImageIds = function() {
 
 sc_global.loadSearch = function(ids) {
   //검색결과 요청
-  var _url = "./data/search_result.json";
+  //var _url = "./data/search_result.json";
+  var _url = "http://192.168.0.127/ImageByCats";
+  var _data = {
+    category_ids : ids
+    ,size : 3
+  }
   $.ajax({
     url : _url
+    ,method : "POST"
+    ,async : true
+    ,crossdomain : true
     ,datatype : "json"
+    ,data : _data
+    ,cache : false
     ,success : function(data, textStatus, xhr) {
+      debugger;
       if(data.idlist.length > 0) {
 
         sc_global.imIdList = data.idlist;
