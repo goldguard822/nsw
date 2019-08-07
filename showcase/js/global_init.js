@@ -9,6 +9,7 @@ sc_global.imIdList = [];
 sc_global.defaultScale = 0.5;
 sc_global.delta = 0;
 
+sc_global.resultInfo = [];
 sc_global.searchResult = [];
 
 sc_global.init = function(){
@@ -18,13 +19,16 @@ sc_global.init = function(){
 
 sc_global.setData = function(){
   //카테고리 정보 연동
-  var _url = "./data/category.json";
+  //var _url = "./data/category.json";
+  var _url = "http://if.dataset.co.kr/Cats";
   $.ajax({
     url : _url
+    ,method : "POST"
     ,async : true
     ,datatype : "json"
     ,cache : false
     ,success : function(data, status, xhr){
+      debugger;
       sc_global.categories = data.category;
       $.each(sc_global.categories, function(i,v){
         sc_global.catNames.push($(this)[0].name);
@@ -34,6 +38,7 @@ sc_global.setData = function(){
       sc_global.drawIcon();
     }
     ,error : function(xhr, status, err) {
+      debugger;
       alert("카테고리 데이터를 가져오는 중 오류가 발생하였습니다.");
     }
   });
@@ -183,7 +188,9 @@ sc_global.loadSearch = function(ids) {
     ,datatype : "json"
     ,success : function(data, textStatus, xhr) {
       if(data.idlist.length > 0) {
+
         sc_global.imIdList = data.idlist;
+        sc_global.resultInfo = data.result_info;
         sc_global.searchResult = data.search_result;
         var tags = $("#sc_search_input").tagit("assignedTags");
         // disable search button and show loading
@@ -226,6 +233,7 @@ sc_global.loadVisualizations = function(imageIds) {
         for (var i = 0; i < instances.length; i++) {
           catToSegms[instances[i]['category_id']].push(instances[i]);
         }
+        debugger;
         sc_global.createDisplay(imageId, catToSegms, url);
       }
       // unlock search button
@@ -241,11 +249,17 @@ sc_global.loadVisualizations = function(imageIds) {
 
 sc_global.loadImageData = function(imageIds, callback) {
   var imageData = {};
+debugger;
   $.each(sc_global.searchResult, function(i,v){
     var imgId = $(this)[0].image_id;
     if (imageData[imgId] == undefined) {
       imageData[imgId] = {};
-      imageData[imgId]['url'] = $(this)[0].url;
+      $.each(sc_global.resultInfo, function(k,val){
+        if (imgId == val.id) {
+          imageData[imgId]['url'] = $(this)[0].url;
+        }
+      });
+      //imageData[imgId]['url'] = $(this)[0].url;
       imageData[imgId]['instances'] = [];
     }
 
