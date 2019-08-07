@@ -40,11 +40,6 @@ invest.eventBind = function() {
     }
   });
 
-  //푸터 패밀리사이트 토글
-  $("footer div.footer_family div.link_item span.family_icon").off("click").on("click", function(){
-      $("footer div.family_wrap").toggle();
-  });
-
   //메인 스크롤시 헤더 칼라변경
   $(window).on("scroll", function () {
       if ($(this).scrollTop() > 100) {
@@ -70,7 +65,7 @@ invest.draw_emp_info = function() {
     _target = $("div#"+i);      //타겟 div select ex) div#team01
     if (_target.size() > 0) {   //타겟 div가 존재하는 경우만 처리
       $("div.content ul.list_team", _target).empty(); //타겟 div내에 ul.list_team 내용 비우기
-      $.each(this, function(n,val){   //json데이터 갯수만큼 loop
+      $.each(this.member, function(n,val){   //json데이터 갯수만큼 loop
         _h = '<li>';
         _h +=   '<figure role="empinfo" empno="'+ val.empno +'">';  //empno 세팅
         _h +=     '<span>';
@@ -86,17 +81,19 @@ invest.draw_emp_info = function() {
         _h += "</li>";
         $("div.content ul.list_team", _target).append($(_h)); //타겟 div내에 ul.list_team에 위에서 생성한 li요소 붙이기
       });
+      $("div.cont_header>h2", _target).empty().html(this.teamname);
     }
   });
 }
 
 //직원정보 상세 팝업 오픈
 invest.openPop = function(_teamcode, _empno) {
-  var _empinfo = invest.emp_info[_teamcode][_empno];          // 가져온 json Data에서 해당 사번의 정보 get
-  var _popup = $("div#popup");                                // popup div select
-  $("div.img_box img", _popup).attr("src", _empinfo.imgsrc);  // 사진 경로 세팅
-  $("p.p_name", _popup).empty().html(_empinfo.name);          // 성명 세팅
-  $("p.p_post", _popup).empty().html(_empinfo.post);          // 직급/직책 세팅
-  $("p.p_cmt", _popup).empty().html(_empinfo.comment);        // 설명 세팅
-  _popup.show();                                              // 팝업 div show
+  debugger;
+  var _empinfo = invest.emp_info[_teamcode]["member"][_empno];   // 가져온 json Data에서 해당 사번의 정보 get
+  var _popup = $("div#popup");                                   // popup div select
+  $("div.img_box img", _popup).attr("src", _empinfo.imgsrc);     // 사진 경로 세팅
+  $("p.p_name", _popup).empty().html(_empinfo.name);             // 성명 세팅
+  $("p.p_post", _popup).empty().html(_empinfo.post);             // 직급/직책 세팅
+  $("p.p_cmt", _popup).empty().html(_empinfo.comment);           // 설명 세팅
+  _popup.show();                                                 // 팝업 div show
 }
