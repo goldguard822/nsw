@@ -135,9 +135,12 @@ div.showcase_cont_area .sc_search_btn:hover:before,div.showcase_cont_area .sc_se
   width:100%;
   transition:800ms ease all;
 }
+div.showcase_cont_area .sc_imageDisplay .sc_icons_area {
+  margin: 10px 0px;
+}
 div.showcase_cont_area .sc_imageDisplay img.filterIconImage {
-  width:30px;
-  height:30px;
+  width:45px;
+  height:45px;
   cursor:pointer;
 }
 div.showcase_cont_area div.canvas_div {
@@ -145,9 +148,10 @@ div.showcase_cont_area div.canvas_div {
 }
 div.showcase_cont_area div.sc_imageDisplay div.sc_icons_area span.filterIcon {
   display:inline-block;
-  width:30px;
-  height:30px;
+  width:45px;
+  height:45px;
   margin-right:5px;
+  border:1px solid #ccc;
 }
 
 #content {

@@ -11,6 +11,10 @@ sc_global.delta = 0;
 
 sc_global.resultInfo = [];
 sc_global.searchResult = [];
+sc_global.paging = [];
+sc_global.searchCnt = 0;
+
+sc_global.imgHost = "http://192.168.0.117";
 
 sc_global.init = function(){
   sc_global.setData();
@@ -20,14 +24,19 @@ sc_global.init = function(){
 sc_global.setData = function(){
   //카테고리 정보 연동
   //var _url = "./data/category.json";
-  var _url = "http://192.168.0.127/Cats";
+  var _url = "http://192.168.0.117/Cats";
   $.ajax({
     url : _url
+    ,contentType : "application/json"
     ,method : "POST"
     ,async : true
-    ,crossdomain : true
+    //,crossdomain : true
     ,datatype : "json"
     ,cache : false
+    // ,beforeSend: function(xhr){
+    //   xhr.setRequestHeader("Access-Control-Request-Method","POST");
+    //   xhr.setRequestHeader("Access-Control-Request-Headers","origin,Access-Control-Request-Method,Access-Control-Request-Headers");
+    // }
     ,success : function(data, status, xhr){
       sc_global.categories = data;
       $.each(sc_global.categories, function(i,v){
@@ -118,7 +127,7 @@ sc_global.drawIcon = function() {
     }
     var _sel_ids = [];
     $.each(_tagit, function(i,v){
-      _sel_ids.push(sc_global.catToId[v]);
+      _sel_ids.push(sc_global.catToId[v].toString());
     });
     sc_global.clearCanvas();
     sc_global.loadSearch(_sel_ids);
@@ -149,6 +158,8 @@ sc_global.imgError = function() {
 }
 
 sc_global.setScroll = function() {
+  //scroll 시 추가 이미지 불러오기 (임시 주석처리)
+  /*
   $(window).scroll(function() {
     if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
       if ($('#sc_search_btn').prop('disabled') == false) {
@@ -163,6 +174,7 @@ sc_global.setScroll = function() {
       }
     }
   });
+  */
 }
 
 //캔버스 초기화
@@ -186,26 +198,32 @@ sc_global.popRandImageIds = function() {
 sc_global.loadSearch = function(ids) {
   //검색결과 요청
   //var _url = "./data/search_result.json";
-  var _url = "http://192.168.0.127/ImageByCats";
+  var _url = "http://192.168.0.117/ImageByCats";
   var _data = {
-    category_ids : ids
-    ,size : 3
+    'category_ids' : ids
+    ,'size' : 3
   }
   $.ajax({
     url : _url
+    ,contentType : "application/json"
     ,method : "POST"
     ,async : true
-    ,crossdomain : true
+    //,crossdomain : true
     ,datatype : "json"
-    ,data : _data
+    ,data : JSON.stringify(_data)
     ,cache : false
+    // ,beforeSend: function(xhr){
+    //   xhr.setRequestHeader("Access-Control-Request-Method","POST");
+    //   xhr.setRequestHeader("Access-Control-Request-Headers","origin,Access-Control-Request-Method,Access-Control-Request-Headers");
+    // }
     ,success : function(data, textStatus, xhr) {
-      debugger;
-      if(data.idlist.length > 0) {
+      if(data[0].length > 0) {
 
-        sc_global.imIdList = data.idlist;
-        sc_global.resultInfo = data.result_info;
-        sc_global.searchResult = data.search_result;
+        sc_global.imIdList = data[0];
+        sc_global.resultInfo = data[1][0];
+        sc_global.searchResult = data[1][1];
+        sc_global.paging = data[2];
+        sc_global.searchCnt = data[3];
         var tags = $("#sc_search_input").tagit("assignedTags");
         // disable search button and show loading
         $('#sc_search_btn').prop("disabled", true);
@@ -220,6 +238,7 @@ sc_global.loadSearch = function(ids) {
           sc_global.loadImageByCats(tags);
         }
       }
+      debugger;
     }
     ,error : function(xhr, textStatus, err) {
       alert("검색결과를 가져오는 중 오류가 발생하였습니다.");
@@ -247,7 +266,6 @@ sc_global.loadVisualizations = function(imageIds) {
         for (var i = 0; i < instances.length; i++) {
           catToSegms[instances[i]['category_id']].push(instances[i]);
         }
-        debugger;
         sc_global.createDisplay(imageId, catToSegms, url);
       }
       // unlock search button
@@ -263,14 +281,13 @@ sc_global.loadVisualizations = function(imageIds) {
 
 sc_global.loadImageData = function(imageIds, callback) {
   var imageData = {};
-debugger;
   $.each(sc_global.searchResult, function(i,v){
     var imgId = $(this)[0].image_id;
     if (imageData[imgId] == undefined) {
       imageData[imgId] = {};
       $.each(sc_global.resultInfo, function(k,val){
-        if (imgId == val.id) {
-          imageData[imgId]['url'] = $(this)[0].url;
+        if (imgId == val.image_id) {
+          imageData[imgId]['url'] = $(this)[0].image_url;
         }
       });
       //imageData[imgId]['url'] = $(this)[0].url;
@@ -292,7 +309,7 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
     return;
   }
   // url Icon
-  var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.jpg"></span>'
+  var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.png"></span>'
   var sc_url = '<a href="#showcase?id=' + imageId + '" target="_blank">' + './#showcase?id=' + imageId + '</a>';
   var urlText = sc_url + '</br>' + url;
   // category icon
@@ -302,7 +319,7 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
     catIcons += '<span class="filterIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="filterIconImage filterCategoryImage" src="./images/icons/new/' + iconIds[i] + '.jpg"></span>';
   }
   // blank icon
-  var blankIcon = '<span class="filterIcon" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.jpg"></span>';
+  var blankIcon = '<span class="filterIcon" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.png"></span>';
   // image display drawing
   var display =
   '<div class="sc_imageDisplay" id="sc_imageDisplay' + imageId + '" style="margin-bottom:15px">' +
@@ -318,7 +335,7 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
   var canvas = display.find('.sc_canvas')[0];
   var ctx = canvas.getContext("2d");
   var img = new Image;
-  img.src = url;
+  img.src = sc_global.imgHost + url;
   img.onload = function () {
     canvas.width = this.width * sc_global.defaultScale;
     canvas.height = this.height * sc_global.defaultScale;
@@ -418,17 +435,20 @@ sc_global.renderSegms = function(ctx, img, data, zoom) {
       var polys = segms[j]['segmentation'];
       for (var k=0; k<polys.length; k++){
         var poly = polys[k];
-        ctx.beginPath();
-        ctx.moveTo(poly[0], poly[1]);
-        for (m=0; m<poly.length-2; m+=2){
-          ctx.lineTo(poly[m+2],poly[m+3]);
+        for (var n=0; n<poly.length; n++){
+          var _poly = poly[n][0];
+          ctx.beginPath();
+          ctx.moveTo(_poly[0], _poly[1]);
+          for (var m=0; m<_poly.length-2; m+=2){
+            ctx.lineTo(_poly[m+2],_poly[m+3]);
+          }
+          ctx.lineTo(_poly[0],_poly[1]);
+          ctx.lineWidth = 3;
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = 'black';
+          ctx.stroke();
         }
-        ctx.lineTo(poly[0],poly[1]);
-        ctx.lineWidth = 3;
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
       }
     }
   }
