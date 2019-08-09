@@ -9,12 +9,13 @@ sc_global.imIdList = [];
 sc_global.defaultScale = 0.5;
 sc_global.delta = 0;
 
+sc_global.sel_ids = [];
 sc_global.resultInfo = [];
 sc_global.searchResult = [];
 sc_global.paging = [];
 sc_global.searchCnt = 0;
 
-sc_global.imgHost = "http://192.168.0.117";
+sc_global.searchHost = "http://192.168.0.117";
 
 sc_global.init = function(){
   sc_global.setData();
@@ -24,7 +25,7 @@ sc_global.init = function(){
 sc_global.setData = function(){
   //카테고리 정보 연동
   //var _url = "./data/category.json";
-  var _url = "http://192.168.0.117/Cats";
+  var _url = sc_global.searchHost + "/Cats";
   $.ajax({
     url : _url
     ,contentType : "application/json"
@@ -129,6 +130,10 @@ sc_global.drawIcon = function() {
     $.each(_tagit, function(i,v){
       _sel_ids.push(sc_global.catToId[v].toString());
     });
+    debugger;
+    if (_sel_ids == sc_global.sel_ids) {
+      return;
+    }
     sc_global.clearCanvas();
     sc_global.loadSearch(_sel_ids);
   });
@@ -136,14 +141,17 @@ sc_global.drawIcon = function() {
   $('#sc_search_Done').hide();
 
   //hash를 체크하여 hash값에 id가 있는 경우 해당값으로 검색 실행
+  /*
   id = sc_global.checkHash();
   if(id!=undefined){
     //var _cat = sc_global.idToCat[parseInt(id)];
     $("#sc_search_input").tagit("createTag",id);
     sc_global.loadSearch();
   }
+  */
 }
 
+/*
 sc_global.checkHash = function() {
   var hash, args, id;
   hash = window.location.hash.replace(/\#/gi,"");
@@ -152,17 +160,22 @@ sc_global.checkHash = function() {
   for (var i=0; i<args.length; i++) if (args[i][0] == 'id') id = args[i][1];
   return id;
 }
+*/
 
 sc_global.imgError = function() {
   event.srcElement.src = "./images/icons/new/1.jpg";
 }
 
 sc_global.setScroll = function() {
-  //scroll 시 추가 이미지 불러오기 (임시 주석처리)
-  /*
+  //scroll 시 추가 이미지 불러오기
   $(window).scroll(function() {
-    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100) {
+      if (sc_global.paging.length == 0) return;
       if ($('#sc_search_btn').prop('disabled') == false) {
+        $('#sc_search_btn').prop("disabled", true);
+        $('#sc_search_Loading').show();
+        sc_global.loadSearch(sc_global.sel_ids);
+        /*
         var randInds = sc_global.popRandImageIds();
         if(randInds.length > 0) {
           $('#sc_search_btn').prop("disabled", true);
@@ -171,10 +184,10 @@ sc_global.setScroll = function() {
         } else {
           $('#sc_search_Done').show();
         }
+        */
       }
     }
   });
-  */
 }
 
 //캔버스 초기화
@@ -196,13 +209,22 @@ sc_global.popRandImageIds = function() {
 }
 
 sc_global.loadSearch = function(ids) {
+  if (ids.length == 0) {
+    sc_global.sel_ids = [];
+    return;
+  }
+
   //검색결과 요청
   //var _url = "./data/search_result.json";
-  var _url = "http://192.168.0.117/ImageByCats";
+  var _url = sc_global.searchHost + "/ImageByCats";
   var _data = {
     'category_ids' : ids
     ,'size' : 3
   }
+  if (sc_global.paging.length > 0) {
+    _data["next"] = parseInt(sc_global.paging[0]);
+  }
+
   $.ajax({
     url : _url
     ,contentType : "application/json"
@@ -218,12 +240,13 @@ sc_global.loadSearch = function(ids) {
     // }
     ,success : function(data, textStatus, xhr) {
       if(data[0].length > 0) {
-
+        sc_global.sel_ids = ids;
         sc_global.imIdList = data[0];
         sc_global.resultInfo = data[1][0];
         sc_global.searchResult = data[1][1];
         sc_global.paging = data[2];
         sc_global.searchCnt = data[3];
+
         var tags = $("#sc_search_input").tagit("assignedTags");
         // disable search button and show loading
         $('#sc_search_btn').prop("disabled", true);
@@ -232,13 +255,14 @@ sc_global.loadSearch = function(ids) {
         if (ids != undefined){
           sc_global.loadVisualizations(ids);
         } else if($.isNumeric(tags[0])){
+          debugger;
           sc_global.loadVisualizations([tags[0]]);
           sc_global.imIdList = [];
         } else {
+          debugger;
           sc_global.loadImageByCats(tags);
         }
       }
-      debugger;
     }
     ,error : function(xhr, textStatus, err) {
       alert("검색결과를 가져오는 중 오류가 발생하였습니다.");
@@ -253,8 +277,11 @@ sc_global.loadImageByCats = function(tags) {
 }
 
 sc_global.loadVisualizations = function(imageIds) {
+
   if (imageIds.length > 0){
-    $("div.sc_imageDisplay").remove();
+    if (sc_global.paging.length == 0) {
+      $("div.sc_imageDisplay").remove();
+    }
     sc_global.loadImageData(imageIds, function (dataImage) {
       var imageIds = Object.keys(dataImage);
       for (var j = 0; j < imageIds.length; j++) {
@@ -335,7 +362,7 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
   var canvas = display.find('.sc_canvas')[0];
   var ctx = canvas.getContext("2d");
   var img = new Image;
-  img.src = sc_global.imgHost + url;
+  img.src = sc_global.searchHost + url;
   img.onload = function () {
     canvas.width = this.width * sc_global.defaultScale;
     canvas.height = this.height * sc_global.defaultScale;

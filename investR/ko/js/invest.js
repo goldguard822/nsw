@@ -6,6 +6,34 @@ function invest() {};
 invest.emp_info = [];
 invest.init = function(){
     invest.eventBind();
+
+    //nsw
+    $(window).scroll(function() {
+        console.log("scrollTop() => " + $(this).scrollTop());
+        console.log("#ceo.position().top => " + Math.round($('div#team01').position().top));
+        var _ceo_pos = Math.trunc($("div#ceo").position().top);
+        var _team01_pos = Math.trunc($("div#team01").position().top);
+        var _team02_pos = Math.trunc($("div#team02").position().top);
+        var _team03_pos = Math.trunc($("div#team03").position().top);
+        var _team04_pos = Math.trunc($("div#team04").position().top);
+        var _scrTop = $(this).scrollTop();
+        if (_scrTop >= 0 &&  _scrTop < _team01_pos) { //team01
+          console.log("ceo");
+        } else if (_scrTop >= _team01_pos && _scrTop < _team02_pos) {
+          console.log("team01");
+        } else if (_scrTop >= _team02_pos && _scrTop < _team03_pos) {
+          console.log("team02");
+        } else if (_scrTop >= _team03_pos && _scrTop < _team04_pos) {
+          console.log("team03");
+        } else if (_scrTop >= _team04_pos) {
+          console.log("team04");
+        }
+        // if ($(this).scrollTop() >= Math.ceil($('div#ceo').offset().top)) {
+        //   console.log("1");
+        // } else {
+        //   console.log("2");
+        // }
+    });
 }
 invest.eventBind = function() {
   //직원정보 json데이터 가져와 직원정보 html 그리기
@@ -60,7 +88,7 @@ invest.eventBind = function() {
       event.preventDefault();
       $('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
   });
-  
+
   //LNB 서브메뉴 클릭 시
   $("div.lnb ul li").on("click", function(e){
     e.stopPropagation() || e.preventDefault();
