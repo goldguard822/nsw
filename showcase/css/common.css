@@ -192,6 +192,14 @@ div.sc_search_Loading {
   text-align: center;
 }
 
+div.sc_search_Done {
+  text-align: center;
+  padding: 20px;
+}
+div.sc_search_Done>span {
+  font-size:13px;
+}
+
 /* scrollbar css */
 /*
 ::-webkit-scrollbar-track {
