@@ -11,33 +11,30 @@
 
     <script type="text/javascript" src="./js/tag-it.min.js"></script>
     <script type="text/javascript" src="./js/global_init.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        sc_global.init();
-      });
-    </script>
   </head>
   <body>
-    <section id="showcase_section">
-      <div class="showcase_header">
-        <h1>Building X-ray Image AI Dataset for Hazardous Materials.</h1>
-      </div>
-      <div class="showcase_header_shadow"></div>
-      <div id="content" class="showcase_cont_area">
-        <!-- h2>Sample Page</h2 -->
-        <div id="sc_IconPanel" class="iconpanel_area"></div>
-        <div id="sc_searchBox" class="sc_search_area">
-          <input type="text" id="sc_search_input" class="tagit-hidden-field" name="sc_search_input" value="" />
+    <div class="showcase_wrap">
+      <section id="showcase_section">
+        <div class="showcase_header">
+          <h1>Building X-ray Image AI Dataset for Hazardous Materials.</h1>
         </div>
-        <button type="button" id="sc_search_btn" class="sc_search_btn" name="sc_search_btn">Search</button>
-        <div id="sc_imageDisplayList" class="sc_imageDisplayList"></div>
-        <div id="sc_search_Loading" class="sc_search_Loading">
-          <img src="./images/icons/loader.gif">
+        <div class="showcase_header_shadow"></div>
+        <div id="content" class="showcase_cont_area">
+          <!-- h2>Sample Page</h2 -->
+          <div id="sc_IconPanel" class="iconpanel_area"></div>
+          <div id="sc_searchBox" class="sc_search_area">
+            <input type="text" id="sc_search_input" class="tagit-hidden-field" name="sc_search_input" value="" />
+          </div>
+          <button type="button" id="sc_search_btn" class="sc_search_btn" name="sc_search_btn">Search</button>
+          <div id="sc_imageDisplayList" class="sc_imageDisplayList"></div>
+          <div id="sc_search_Loading" class="sc_search_Loading">
+            <img src="./images/icons/loading.gif">
+          </div>
+          <div id="sc_search_Done" class="sc_search_Done">
+            <span>더 이상 표시할 이미지가 없습니다.</span>
+          </div>
         </div>
-        <div id="sc_search_Done" class="sc_search_Done">
-          <span>더 이상 표시할 이미지가 없습니다.</span>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </body>
 </html>

@@ -1,3 +1,12 @@
+//Prototype 선언(array differnce check)
+Array.prototype.diff = function(a) {
+    return this.filter(function(i) {return a.indexOf(i) < 0;});
+};
+
+$(document).ready(function(){
+  sc_global.init();
+});
+
 function sc_global(){}
 sc_global.categories = "";
 sc_global.superCats = "";
@@ -14,6 +23,7 @@ sc_global.resultInfo = [];
 sc_global.searchResult = [];
 sc_global.paging = [];
 sc_global.searchCnt = 0;
+sc_global.isDifference = false;
 
 sc_global.searchHost = "http://192.168.0.117";
 
@@ -130,10 +140,13 @@ sc_global.drawIcon = function() {
     $.each(_tagit, function(i,v){
       _sel_ids.push(sc_global.catToId[v].toString());
     });
-    debugger;
-    if (_sel_ids == sc_global.sel_ids) {
-      return;
+
+    //이미 기존에 검색결과가 있는 경우 체크 (선택한 분류와 현재 검색된 분류가 동일한 경우 재 검색 하지 않음.)
+    if(sc_global.sel_ids.length > 0) {
+      sc_global.arrDiff(_sel_ids, sc_global.sel_ids);
+      if (!sc_global.isDifference) return false;
     }
+
     sc_global.clearCanvas();
     sc_global.loadSearch(_sel_ids);
   });
@@ -149,6 +162,17 @@ sc_global.drawIcon = function() {
     sc_global.loadSearch();
   }
   */
+}
+
+sc_global.arrDiff = function(a,b) {
+  var _diff1 = a.diff(b);
+  var _diff2 = b.diff(a);
+
+  if (_diff1.length == 0 && _diff2.length == 0) {
+    sc_global.isDifference = false;
+  } else {
+    sc_global.isDifference = true;
+  }
 }
 
 /*
@@ -175,16 +199,6 @@ sc_global.setScroll = function() {
         $('#sc_search_btn').prop("disabled", true);
         $('#sc_search_Loading').show();
         sc_global.loadSearch(sc_global.sel_ids);
-        /*
-        var randInds = sc_global.popRandImageIds();
-        if(randInds.length > 0) {
-          $('#sc_search_btn').prop("disabled", true);
-          $('#sc_search_Loading').show();
-          sc_global.loadSearch(randInds);
-        } else {
-          $('#sc_search_Done').show();
-        }
-        */
       }
     }
   });
@@ -239,6 +253,14 @@ sc_global.loadSearch = function(ids) {
     //   xhr.setRequestHeader("Access-Control-Request-Headers","origin,Access-Control-Request-Method,Access-Control-Request-Headers");
     // }
     ,success : function(data, textStatus, xhr) {
+      if(typeof(data) == "string") {
+        var _json = $.parseJSON(data.replace(/'/gi,"\""));
+        if (_json.index == "nodata") { //더이상 데이터가 없음.
+          $('#sc_search_Loading').hide();
+          $('#sc_search_Done').show();
+          return;
+        }
+      }
       if(data[0].length > 0) {
         sc_global.sel_ids = ids;
         sc_global.imIdList = data[0];
@@ -255,11 +277,9 @@ sc_global.loadSearch = function(ids) {
         if (ids != undefined){
           sc_global.loadVisualizations(ids);
         } else if($.isNumeric(tags[0])){
-          debugger;
           sc_global.loadVisualizations([tags[0]]);
           sc_global.imIdList = [];
         } else {
-          debugger;
           sc_global.loadImageByCats(tags);
         }
       }
@@ -277,9 +297,8 @@ sc_global.loadImageByCats = function(tags) {
 }
 
 sc_global.loadVisualizations = function(imageIds) {
-
   if (imageIds.length > 0){
-    if (sc_global.paging.length == 0) {
+    if (sc_global.paging.length == 0 || sc_global.isDifference) {
       $("div.sc_imageDisplay").remove();
     }
     sc_global.loadImageData(imageIds, function (dataImage) {
@@ -336,7 +355,8 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
     return;
   }
   // url Icon
-  var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.png"></span>'
+  //var urlIcon = '<span class="filterIcon" title="url to share this image"><img id="filterURLIcon" class="filterIconImage" src="images/icons/url.png"></span>';
+  var urlIcon = '';
   var sc_url = '<a href="#showcase?id=' + imageId + '" target="_blank">' + './#showcase?id=' + imageId + '</a>';
   var urlText = sc_url + '</br>' + url;
   // category icon
@@ -346,14 +366,13 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
     catIcons += '<span class="filterIcon" title="' + sc_global.idToCat[iconIds[i]] + '"><img data="' + iconIds[i] + '" class="filterIconImage filterCategoryImage" src="./images/icons/new/' + iconIds[i] + '.jpg"></span>';
   }
   // blank icon
-  var blankIcon = '<span class="filterIcon" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.png"></span>';
+  var blankIcon = '<span class="filterIcon blank" title="hide segmentations"><img id="filterBlankIcon" class="filterIconImage" src="./images/icons/blank.png"></span>';
   // image display drawing
-  var display =
-  '<div class="sc_imageDisplay" id="sc_imageDisplay' + imageId + '" style="margin-bottom:15px">' +
-  '<div class="sc_icons_area" style="display:inline-block">' + urlIcon + catIcons + blankIcon + '</div>' +
-  '<div class="sc_url" style="display:none">' + urlText + '</div>' +
-  '<div style="margin-top:1px" id="canvas_div_'+ imageId +'" class="canvas_div"><canvas class="sc_canvas"></canvas></div>' +
-  '</div>';
+  var display = '<div class="sc_imageDisplay" id="sc_imageDisplay' + imageId + '">';
+  display += '<div class="sc_icons_area" style="display:inline-block">' + urlIcon + catIcons + blankIcon + '</div>';
+  //display += '<div class="sc_url" style="display:none">' + urlText + '</div>';
+  display += '<div style="margin-top:1px" id="canvas_div_'+ imageId +'" class="canvas_div"><canvas class="sc_canvas"></canvas></div>';
+  display += '</div>';
 
   $('#sc_imageDisplayList').append(display);
   var display = $('#sc_imageDisplay' + imageId);
@@ -432,20 +451,20 @@ sc_global.createDisplay = function(imageId, catToSegms, url){
         sc_global.renderSegms(ctx, img, catToSegms, _zoom);
       }
     }
-    return evt.preventDefault() && false;
+    return evt.preventDefault() || evt.stopPropagation() && false;
   };
-  canvas.addEventListener('DOMMouseScroll',handleZoom,false);
-  canvas.addEventListener('mousewheel',handleZoom,false);
+  //canvas.addEventListener('DOMMouseScroll',handleZoom,false);
+  //canvas.addEventListener('mousewheel',handleZoom,false);
 }
 
 sc_global.renderImage = function(ctx, img, zoom) {
-  if (zoom == undefined) zoom = 0.5
+  if (zoom == undefined) zoom = sc_global.defaultScale;
   ctx.clearRect(0, 0, img.width, img.height);
   ctx.drawImage(img, 0, 0, img.width*zoom, img.height*zoom);
 }
 
 sc_global.renderSegms = function(ctx, img, data, zoom) {
-  if (zoom == undefined) zoom = 0.5
+  if (zoom == undefined) zoom = sc_global.defaultScale;
   var cats = Object.keys(data);
 
   ctx.save();
