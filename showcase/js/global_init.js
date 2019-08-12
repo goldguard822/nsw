@@ -255,7 +255,7 @@ sc_global.loadSearch = function(ids) {
     ,success : function(data, textStatus, xhr) {
       if(typeof(data) == "string") {
         var _json = $.parseJSON(data.replace(/'/gi,"\""));
-        if (_json.index == "nodata") { //더이상 데이터가 없음.
+        if (_json.index == "nodata") { //더 이상 데이터가 없음.
           $('#sc_search_Loading').hide();
           $('#sc_search_Done').show();
           return;
