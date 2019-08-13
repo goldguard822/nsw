@@ -7,6 +7,7 @@ $(document).ready(function(){
   sc_global.init();
 });
 
+//global class
 function sc_global(){}
 sc_global.categories = "";
 sc_global.superCats = "";
