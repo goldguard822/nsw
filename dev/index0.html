@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script type="text/javascript">
+      //Module define
+      var myApp = angular.module('myApp', []);
+
+      //controller
+      myApp.controller('MainCtrl', ['$scope', function ($scope) {
+        $scope.text = 'Hello, Angular fanatic.!';
+      }]);
+      myApp.controller("UserCtrl", ['$scope', 'customService', function ($scope, customService) {
+
+        $scope.user = {};
+        $scope.user.details = [
+          {
+            "username" : "sam"
+            ,"id" : "292929"
+            ,"result" : customService.fnc1(12,24)
+          }
+          ,{
+            "username" : "jimmy"
+            ,"id" : "696969"
+            ,"result" : customService.fnc2(12,24)
+          }
+        ]
+      }]);
+      myApp.controller("AjaxCtrl", ['$scope', 'Server', function($scope, Server) {
+        var jsonGet = 'http://192.168.0.117/Cats';
+        var jsonPost = 'http://192.168.0.117/Cats';
+        //Server.get(jsonGet);
+        $scope = Server.post(jsonPost);
+      }]);
+      myApp.controller("RepeatCtrl", ['$scope', "Server", function($scope, Server){
+        $scope.numbers = Server.test();
+        $scope.lowerBound = 20;
+        $scope.greaterThanNum = function(item) {
+          return item > $scope.lowerBound;
+        }
+      }]);
+      myApp.controller("abcd", ['$scope', function($scope){
+
+      }]);
+
+      //directive
+      myApp.directive('customButton', function(customService){
+        return {
+          restrict : "AEC"
+          , replace: true
+          , transclude: true
+          //, template: '<a ng-transclude><i class="icon-ok-sign">123</i></a>'
+          , templateUrl : './customButton.html'
+          , link : function(scope, elem, attrs) {
+            elem.on("click", function(){
+              alert(customService.fnc1(12,24));
+            });
+          }
+        }
+      });
+
+      //Sevice
+      myApp.service('customService', function(){
+        this.fnc1 = function(x, y) {
+          return (x + y);
+        }
+        this.fnc2 = function(x, y) {
+          return (x * y);
+        }
+      });
+
+      //factory
+      myApp.factory('Server', ['$http', function($http) {
+        return {
+          get : function(url) {
+            return $http.get(url);
+          }
+          ,post : function(url) {
+            return $http.post(url);
+          }
+          ,test : function() {
+            return [10, 25, 35, 45, 60, 80, 100];
+          }
+        };
+      }]);
+
+      //filter
+      myApp.filter('reverse', function() {
+        return function(input, uppercase) {
+          var out = '';
+          for (var i = 0; i < input.length; i++) {
+            out = input.charAt(i) + out;
+          }
+          return out;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div ng-app="myApp">
+      <div ng-controller="MainCtrl">
+        {{ text }}
+        <br/>
+        {{ text | reverse }}
+      </div>
+      <div ng-controller="UserCtrl">
+        {{ user.details[0].username + " : " + user.details[0].id + " " + user.details[0].result}}
+        {{ user.details[1].username + " : " + user.details[1].id + " " + user.details[1].result}}
+      </div>
+      <div ng-controller="AjaxCtrl">
+      </div>
+
+      <div ng-controller="RepeatCtrl">
+        <ul>
+          <li ng-repeat="repeat in numbers | filter:greaterThanNum">
+            {{ repeat }}
+          </li>
+        </ul>
+      </div>
+      <div ng-controller="abcd">
+        <input ng-model="test11" type="text" placeholder="test"/>
+        <span ng-bind="test11">
+          {{ test11 }}
+        </span>
+      </div>
+      <a class="custom-button">Click ME!</a>
+    </div>
+  </body>
+</html>
