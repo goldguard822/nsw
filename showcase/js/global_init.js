@@ -3,10 +3,6 @@ Array.prototype.diff = function(a) {
     return this.filter(function(i) {return a.indexOf(i) < 0;});
 };
 
-$(document).ready(function(){
-  sc_global.init();
-});
-
 //global class
 function sc_global(){}
 sc_global.categories = "";
@@ -35,20 +31,14 @@ sc_global.init = function(){
 
 sc_global.setData = function(){
   //카테고리 정보 연동
-  //var _url = "./data/category.json";
   var _url = sc_global.searchHost + "/Cats";
   $.ajax({
     url : _url
     ,contentType : "application/json"
     ,method : "POST"
     ,async : true
-    //,crossdomain : true
     ,datatype : "json"
     ,cache : false
-    // ,beforeSend: function(xhr){
-    //   xhr.setRequestHeader("Access-Control-Request-Method","POST");
-    //   xhr.setRequestHeader("Access-Control-Request-Headers","origin,Access-Control-Request-Method,Access-Control-Request-Headers");
-    // }
     ,success : function(data, status, xhr){
       sc_global.categories = data;
       $.each(sc_global.categories, function(i,v){
@@ -132,6 +122,7 @@ sc_global.drawIcon = function() {
 
   // 검색버튼 click event binding
   $('#sc_search_btn').off("click").on("click", function(){
+
     var _tagit = $("#sc_search_input").tagit("assignedTags");
     if (_tagit.length == 0) {
       alert("카테고리를 선택하세요.");
@@ -196,7 +187,7 @@ sc_global.setScroll = function() {
   $(window).scroll(function() {
     if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100) {
       if (sc_global.paging.length == 0) return;
-      if ($('#sc_search_btn').prop('disabled') == false) {
+      if (($('#sc_search_btn').prop('disabled') == false) && ($('#sc_search_Done').css("display") == "none")) {
         $('#sc_search_btn').prop("disabled", true);
         $('#sc_search_Loading').show();
         sc_global.loadSearch(sc_global.sel_ids);
@@ -226,39 +217,41 @@ sc_global.popRandImageIds = function() {
 sc_global.loadSearch = function(ids) {
   if (ids.length == 0) {
     sc_global.sel_ids = [];
+    $('#sc_search_btn').prop("disabled", false);
     return;
   }
 
+  //새로운 카테고리를 선택하여 검색했는지 체크
+  sc_global.arrDiff(ids, sc_global.sel_ids);
+
   //검색결과 요청
-  //var _url = "./data/search_result.json";
   var _url = sc_global.searchHost + "/ImageByCats";
   var _data = {
     'category_ids' : ids
     ,'size' : 3
   }
-  if (sc_global.paging.length > 0) {
+  if (!sc_global.isDifference && sc_global.paging.length > 0) {
     _data["next"] = parseInt(sc_global.paging[0]);
   }
 
   $.ajax({
     url : _url
-    ,contentType : "application/json"
-    ,method : "POST"
-    ,async : true
-    //,crossdomain : true
-    ,datatype : "json"
-    ,data : JSON.stringify(_data)
-    ,cache : false
-    // ,beforeSend: function(xhr){
-    //   xhr.setRequestHeader("Access-Control-Request-Method","POST");
-    //   xhr.setRequestHeader("Access-Control-Request-Headers","origin,Access-Control-Request-Method,Access-Control-Request-Headers");
-    // }
-    ,success : function(data, textStatus, xhr) {
+    , contentType : "application/json"
+    , method : "POST"
+    , async : true
+    , datatype : "json"
+    , data : JSON.stringify(_data)
+    , cache : false
+    , success : function(data, textStatus, xhr) {
       if(typeof(data) == "string") {
         var _json = $.parseJSON(data.replace(/'/gi,"\""));
-        if (_json.index == "nodata") { //더 이상 데이터가 없음.
+        if (_json.index == "nodata") {                    //더 이상 데이터가 없음.
+          if (sc_global.isDifference) {                   //새로운 분류를 선택한 경우 기존 검색결과 삭제
+            $("#sc_imageDisplayList").empty();
+          }
           $('#sc_search_Loading').hide();
           $('#sc_search_Done').show();
+          $('#sc_search_btn').prop("disabled", false);
           return;
         }
       }
@@ -275,6 +268,7 @@ sc_global.loadSearch = function(ids) {
         $('#sc_search_btn').prop("disabled", true);
         $('#sc_search_Loading').show();
         $('#sc_search_Done').hide();
+
         if (ids != undefined){
           sc_global.loadVisualizations(ids);
         } else if($.isNumeric(tags[0])){
@@ -285,7 +279,7 @@ sc_global.loadSearch = function(ids) {
         }
       }
     }
-    ,error : function(xhr, textStatus, err) {
+    , error : function(xhr, textStatus, err) {
       alert("검색결과를 가져오는 중 오류가 발생하였습니다.");
     }
   });

@@ -5,12 +5,16 @@
     <link rel="stylesheet" href="/common/css/reset.css">
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/jquery.tag-it.css">
-    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+    <script type="text/javascript" src="/common/js/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/common/css/jquery-ui.css">
+    <script type="text/javascript" src="/common/js/jquery-ui.js"></script>
     <script type="text/javascript" src="./js/tag-it.min.js"></script>
     <script type="text/javascript" src="./js/global_init.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        sc_global.init();
+      });
+    </script>
   </head>
   <body>
     <div class="showcase_wrap">
@@ -26,12 +30,15 @@
             <input type="text" id="sc_search_input" class="tagit-hidden-field" name="sc_search_input" value="" />
           </div>
           <button type="button" id="sc_search_btn" class="sc_search_btn" name="sc_search_btn">Search</button>
+          <div class="sc_result_count" style="display:none; text-align:right; height:20px; line-height:20px;">
+            <h4>검색결과 : 총 <span>0</span>건</h4>
+          </div>
           <div id="sc_imageDisplayList" class="sc_imageDisplayList"></div>
           <div id="sc_search_Loading" class="sc_search_Loading">
             <img src="./images/icons/loading.gif">
           </div>
           <div id="sc_search_Done" class="sc_search_Done">
-            <span>더 이상 표시할 이미지가 없습니다.</span>
+            <span>표시할 이미지가 없습니다.</span>
           </div>
         </div>
       </section>
