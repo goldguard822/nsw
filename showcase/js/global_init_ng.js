@@ -29,6 +29,7 @@ sc_global.init = function(){
   //카테고리 데이터 가져오기(동기 방식)
   sc_global.setData();
 
+  //Scroll Event binding
   sc_global.setScroll();
 
   //카테고리 아이콘 drawing 및 이벤트 바인딩, tagit init, 검색버튼 event binding
@@ -137,6 +138,87 @@ sc_global.init = function(){
       }
     }
   }]);
+  sApp.factory('getImages', ['$http',function($http) {
+
+    var url = 'http://192.168.0.117/Cats';
+    var req = {
+      // method : 'POST',
+      headers: {
+       'Content-Type': 'application/json'
+      },
+      async: true,
+      datatype: 'json',
+      cache: false,
+      data: {}
+    }
+    $http.post(url,req).then(
+      function successCallback(res) {
+        $scope.data = res.data;
+      },function errorCallback(res) {
+        $scope.data = [];
+      }
+    );
+
+    return {
+      get : function(url, config) {
+        return $http.get(url, config);
+      }
+      ,post : function(url, config) {
+        return $http.post(url, config);
+      }
+    };
+    $.ajax({
+      url : _url
+      , contentType : "application/json"
+      , method : "POST"
+      , async : true
+      , datatype : "json"
+      , data : JSON.stringify(_data)
+      , cache : false
+      , success : function(data, textStatus, xhr) {
+        if(typeof(data) == "string") {
+          var _json = $.parseJSON(data.replace(/'/gi,"\""));
+          if (_json.index == "nodata") {                    //더 이상 데이터가 없음.
+            if (sc_global.isDifference) {                   //새로운 분류를 선택한 경우 기존 검색결과 삭제
+              $("#sc_imageDisplayList").empty();
+            }
+            $('#sc_search_Loading').hide();
+            $('#sc_search_Done').show();
+            $('#sc_search_btn').prop("disabled", false);
+            $('.sc_result_count').hide();
+            return;
+          }
+        }
+        if(data[0].length > 0) {
+
+          sc_global.imIdList = data[0];
+          sc_global.resultInfo = data[1][0];
+          sc_global.searchResult = data[1][1];
+          sc_global.paging = data[2];
+          sc_global.searchCnt = data[3];
+
+          var tags = $("#sc_search_input").tagit("assignedTags");
+          // disable search button and show loading
+          $('#sc_search_btn').prop("disabled", true);
+          $('#sc_search_Loading').show();
+          $('#sc_search_Done').hide();
+
+          if (ids != undefined){
+            sc_global.loadVisualizations(ids);
+          } else if($.isNumeric(tags[0])){
+            sc_global.loadVisualizations([tags[0]]);
+            sc_global.imIdList = [];
+          } else {
+            sc_global.loadImageByCats(tags);
+          }
+        }
+      }
+      , error : function(xhr, textStatus, err) {
+        alert("검색결과를 가져오는 중 오류가 발생하였습니다.");
+      }
+    });
+
+  }]);
 }
 
 sc_global.setData = function(){
@@ -233,6 +315,7 @@ sc_global.loadSearch = function(ids) {
   if (!sc_global.isDifference && sc_global.paging.length > 0) {
     _data["next"] = parseInt(sc_global.paging[0]);
   }
+
 
   $.ajax({
     url : _url
