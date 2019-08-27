@@ -158,6 +158,11 @@ div.showcase_cont_area .sc_imageDisplay {
   margin-top: 15px;
   border : 1px solid #ccc;
 }
+
+div.showcase_cont_area .sc_imageDisplay:first-child {
+  margin-top: 0px;
+}
+
 div.showcase_cont_area .sc_imageDisplay .sc_icons_area {
   display: inline-block;
   margin: 10px 0px;
@@ -188,6 +193,14 @@ span.filterIcon.blank {
   font-size:13px;
 }
 
+div.sc_result_count {
+   text-align: right;
+   height: 20px;
+   line-height: 20px;
+   margin : 5px 0px;
+   font-size: 12px;
+}
+
 div.sc_search_Loading {
   text-align: center;
 }
@@ -197,7 +210,7 @@ div.sc_search_Done {
   padding: 20px;
 }
 div.sc_search_Done>span {
-  font-size:13px;
+  font-size: 13px;
 }
 
 /* scrollbar css */

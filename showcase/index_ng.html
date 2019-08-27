@@ -2,21 +2,27 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+
+
     <link rel="stylesheet" href="/common/css/reset.css">
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/jquery.tag-it.css">
     <script type="text/javascript" src="/common/js/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js?v=new Date()"></script>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="./js/tag-it.min.js"></script>
-    <script type="text/javascript" src="./js/global_init.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script type="text/javascript" src="./js/global_init_ng.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
+      // $(document).ready(function(){
         sc_global.init();
-      });
+alert('2')
+      // });
     </script>
   </head>
-  <body>
+  <body ng-app="sApp">
     <div class="showcase_wrap">
       <section id="showcase_section">
         <div class="showcase_header">
@@ -24,8 +30,14 @@
         </div>
         <div class="showcase_header_shadow"></div>
         <div id="content" class="showcase_cont_area">
-          <!-- h2>Sample Page</h2 -->
-          <div id="sc_IconPanel" class="iconpanel_area"></div>
+          <div id="sc_IconPanel" class="iconpanel_area" ng-controller="iconpanel" ng-init="init()">
+            <div class="iconSubpanel">
+              <span class="iconwrap" ng-repeat="category in categories" title="{{ category.category_name }}" on-finish-render="onfinish()">
+                <span class="selected_area"></span>
+                <img title="{{ category.category_name }}" id="{{ 'icon_' + category.category_id }}" class="iconSelect" ng-src="{{ urlprefix + category.category_id + '.jpg' }}" />
+              </span>
+            </div>
+          </div>
           <div id="sc_searchBox" class="sc_search_area">
             <input type="text" id="sc_search_input" class="tagit-hidden-field" name="sc_search_input" value="" />
           </div>
@@ -33,7 +45,7 @@
           <div class="sc_result_count" style="display:none;">
             <h4>검색결과 : 총 <span>0</span>건</h4>
           </div>
-          <div id="sc_imageDisplayList" class="sc_imageDisplayList"></div>
+          <div id="sc_imageDisplayList" class="sc_imageDisplayList" mng-controller="imageDisplayList"></div>
           <div id="sc_search_Loading" class="sc_search_Loading">
             <img src="./images/icons/loading.gif">
           </div>

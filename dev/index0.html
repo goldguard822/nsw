@@ -2,7 +2,7 @@
 <html>
   <head>
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
     <script type="text/javascript">
       //Module define
       var myApp = angular.module('myApp', []);
@@ -12,7 +12,6 @@
         $scope.text = 'Hello, Angular fanatic.!';
       }]);
       myApp.controller("UserCtrl", ['$scope', 'customService', function ($scope, customService) {
-
         $scope.user = {};
         $scope.user.details = [
           {

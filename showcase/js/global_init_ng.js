@@ -23,10 +23,120 @@ sc_global.searchCnt = 0;
 sc_global.isDifference = false;
 
 sc_global.searchHost = "http://192.168.0.117";
-
 sc_global.init = function(){
+  var sApp = angular.module('sApp', []);
+
+  //카테고리 데이터 가져오기(동기 방식)
   sc_global.setData();
+
   sc_global.setScroll();
+
+  //카테고리 아이콘 drawing 및 이벤트 바인딩, tagit init, 검색버튼 event binding
+  sApp.controller('iconpanel', ['$scope', '$http', function($scope, $http) {
+    $scope.urlprefix = 'http://127.0.0.1:3000/showcase/images/icons/new/';
+    $scope.init = function() {
+      $scope.categories = sc_global.categories;
+    }
+    $scope.onfinish = function() {
+      // 카테고리 아이콘 event binding
+      var icons = $(".iconwrap");
+      $.each(icons, function(i,v){
+        var icon = $(this);
+        icon.off('mousedown').on('mousedown', function(e){
+          if(e.button != 0) {return;}
+          var state = $(this).data('state');
+          var cat = $(this).attr('title');
+          if(state) {
+            $("#sc_search_input").tagit("removeTagByLabel", cat);
+          } else {
+            $("#sc_search_input").tagit("createTag", cat);
+          }
+        });
+        sc_global.iconSelected.push(icon.attr('title'));
+      });
+      // tagit set
+      var setTag = function(tag,state) {
+        var icons = $(".iconwrap");
+        $.each(icons, function(i,v){
+          var icon = $(this);
+          if (icon.attr('title') == tag) {
+            icon.data('state', state);
+            var selected = $(this).children("span.selected_area");
+            if (state) {
+              selected.addClass("on");
+            } else {
+              selected.removeClass("on");
+            }
+          }
+        });
+      };
+      $("#sc_search_input").tagit({
+        availableTags: sc_global.catNames,
+        allowDuplicates: false,
+        afterTagAdded: function(e, ui) {
+          var lbl=ui.tagLabel, valid=sc_global.iconSelected.indexOf(lbl)!=-1 || !isNaN(lbl);
+          if(!valid) {
+            $("#sc_search_input").tagit("removeTagByLabel", lbl);
+            return;
+          }
+          setTag(lbl,true);
+        },
+        afterTagRemoved: function(e, ui){
+          setTag(ui.tagLabel,false);
+        }
+      });
+      // 검색버튼 click event binding
+      $('#sc_search_btn').off("click").on("click", function(){
+
+        var _tagit = $("#sc_search_input").tagit("assignedTags");
+        if (_tagit.length == 0) {
+          alert("카테고리를 선택하세요.");
+          return false;
+        }
+        var _sel_ids = [];
+        $.each(_tagit, function(i,v){
+          _sel_ids.push(sc_global.catToId[v].toString());
+        });
+
+        //이미 기존에 검색결과가 있는 경우 체크 (선택한 분류와 현재 검색된 분류가 동일한 경우 재 검색 하지 않음.)
+        if(sc_global.sel_ids.length > 0) {
+          sc_global.arrDiff(_sel_ids, sc_global.sel_ids);
+          if (!sc_global.isDifference) return false;
+        }
+
+        sc_global.clearCanvas();
+        sc_global.loadSearch(_sel_ids);
+      });
+      $('#sc_search_Loading').hide();
+      $('#sc_search_Done').hide();
+    }
+  }]);
+  sApp.directive('onFinishRender', ['$timeout', '$parse', function ($timeout, $parse) {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attr) {
+        if (scope.$last === true) {
+          $timeout(function () {
+            scope.$emit('ngRepeatFinished');
+            if (!!attr.onFinishRender) {
+              $parse(attr.onFinishRender)(scope);
+            }
+          });
+        }
+
+        if (!!attr.onStartRender) {
+          if (scope.$first === true) {
+            $timeout(function () {
+              scope.$emit('ngRepeatStarted');
+              if (!!attr.onStartRender) {
+                $parse(attr.onStartRender)(scope);
+              }
+            });
+          }
+        }
+      }
+    }
+  }]);
 }
 
 sc_global.setData = function(){
@@ -36,7 +146,7 @@ sc_global.setData = function(){
     url : _url
     ,contentType : "application/json"
     ,method : "POST"
-    ,async : true
+    ,async : false
     ,datatype : "json"
     ,cache : false
     ,success : function(data, status, xhr){
@@ -46,114 +156,12 @@ sc_global.setData = function(){
         sc_global.catToId[$(this)[0].category_name] = $(this)[0].category_id;
         sc_global.idToCat[$(this)[0].category_id] = $(this)[0].category_name;
       });
-      sc_global.drawIcon();
+      //sc_global.drawIcon();
     }
     ,error : function(xhr, status, err) {
       alert("카테고리 데이터를 가져오는 중 오류가 발생하였습니다.");
     }
   });
-}
-
-//카테고리 아이콘 drawing 및 event binding
-sc_global.drawIcon = function() {
-  // 카테고리 아이콘 HTML drawing
-  var div = '', i, j;
-  div += '<div class="iconSubpanel">';
-  var cats = sc_global.categories;
-  $.each(cats,function(j,v){
-    div += '<span class="iconwrap" title="'+ cats[j].category_name +'">';
-    div +=  '<span class="selected_area"></span>';
-    div +=  '<img title="' + cats[j].category_name + '" id="icon_' + cats[j].category_id + '" class="iconSelect" src="./images/icons/new/'+ cats[j].category_id +'.jpg" onerror="sc_global.imgError()"/>';
-    div += '</span>';
-  });
-  div += '</div>';
-
-  $('#sc_IconPanel').append(div);
-
-  // 카테고리 아이콘 event binding
-  var icons = $(".iconwrap");
-  $.each(icons, function(i,v){
-    var icon = $(this);
-    icon.data('state', false);
-    icon.off('mousedown').on('mousedown', function(e){
-      if(e.button != 0) {return;}
-      var state = $(this).data('state');
-      var cat = $(this).attr('title');
-      if(state) {
-        $("#sc_search_input").tagit("removeTagByLabel", cat);
-      } else {
-        $("#sc_search_input").tagit("createTag", cat);
-      }
-    });
-    sc_global.iconSelected.push(icon.attr('title'));
-  });
-
-  // tagit 세팅
-  var setTag = function(tag,state) {
-    var icons = $(".iconwrap");
-    $.each(icons, function(i,v){
-      var icon = $(this);
-      if (icon.attr('title') == tag) {
-        icon.data('state', state);
-        var selected = $(this).children("span.selected_area");
-        if (state) {
-          selected.addClass("on");
-        } else {
-          selected.removeClass("on");
-        }
-      }
-    });
-  };
-  $("#sc_search_input").tagit({
-    availableTags: sc_global.catNames,
-    allowDuplicates: false,
-    afterTagAdded: function(e, ui) {
-      var lbl=ui.tagLabel, valid=sc_global.iconSelected.indexOf(lbl)!=-1 || !isNaN(lbl);
-      if(!valid) {
-        $("#sc_search_input").tagit("removeTagByLabel", lbl);
-        return;
-      }
-      setTag(lbl,true);
-    },
-    afterTagRemoved: function(e, ui){
-      setTag(ui.tagLabel,false);
-    }
-  });
-
-  // 검색버튼 click event binding
-  $('#sc_search_btn').off("click").on("click", function(){
-
-    var _tagit = $("#sc_search_input").tagit("assignedTags");
-    if (_tagit.length == 0) {
-      alert("카테고리를 선택하세요.");
-      return false;
-    }
-    var _sel_ids = [];
-    $.each(_tagit, function(i,v){
-      _sel_ids.push(sc_global.catToId[v].toString());
-    });
-
-    //이미 기존에 검색결과가 있는 경우 체크 (선택한 분류와 현재 검색된 분류가 동일한 경우 재 검색 하지 않음.)
-    if(sc_global.sel_ids.length > 0) {
-      sc_global.arrDiff(_sel_ids, sc_global.sel_ids);
-      if (!sc_global.isDifference) return false;
-    }
-
-    sc_global.clearCanvas();
-    sc_global.loadSearch(_sel_ids);
-  });
-  $('#sc_search_Loading').hide();
-  $('#sc_search_Done').hide();
-
-  //hash를 체크하여 hash값에 id가 있는 경우 해당값으로 검색 실행
-  /*
-  id = sc_global.checkHash();
-  if(id!=undefined){
-    //var _cat = sc_global.idToCat[parseInt(id)];
-    $("#sc_search_input").tagit("createTag",id);
-    sc_global.loadSearch();
-  }
-  */
 }
 
 sc_global.arrDiff = function(a,b) {
@@ -166,17 +174,6 @@ sc_global.arrDiff = function(a,b) {
     sc_global.isDifference = true;
   }
 }
-
-/*
-sc_global.checkHash = function() {
-  var hash, args, id;
-  hash = window.location.hash.replace(/\#/gi,"");
-  hash = hash.substring(hash.indexOf('?')+1);
-  args = hash.split('&').map(function(x) {return x.split('=')});
-  for (var i=0; i<args.length; i++) if (args[i][0] == 'id') id = args[i][1];
-  return id;
-}
-*/
 
 sc_global.imgError = function() {
   event.srcElement.src = "./images/icons/new/1.jpg";
@@ -224,6 +221,7 @@ sc_global.loadSearch = function(ids) {
   //새로운 카테고리를 선택하여 검색했는지 체크
   sc_global.arrDiff(ids, sc_global.sel_ids);
 
+  //선택한 카테고리 값 저장
   sc_global.sel_ids = ids;
 
   //검색결과 요청
